@@ -70,10 +70,10 @@ var customScripts = {
         });
     },
     slider: function () {
-        $('#da-slider').cslider({
-            autoplay: true,
-            bgincrement: 0
-        });
+//        $('#da-slider').cslider({
+//            autoplay: true,
+//            bgincrement: 0
+//        });
     },
     owlSlider: function () {
         var owl = $("#owl-demo");
