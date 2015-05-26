@@ -87,12 +87,12 @@ var customScripts = {
         })
     },
     bannerHeight: function () {
-        var bHeight = $(".banner-container").height();
-        $('#da-slider').height(bHeight);
-        $(window).resize(function () {
-            var bHeight = $(".banner-container").height();
-            $('#da-slider').height(bHeight);
-        });
+//        var bHeight = $(".banner-container").height();
+//        $('#da-slider').height(bHeight);
+//        $(window).resize(function () {
+//            var bHeight = $(".banner-container").height();
+//            $('#da-slider').height(bHeight);
+//        });
     },
     init: function () {
         customScripts.onePageNav();
