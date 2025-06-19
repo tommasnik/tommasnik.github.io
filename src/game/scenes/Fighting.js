@@ -1,6 +1,6 @@
 import { Scene } from 'phaser';
 import { FightingGame } from '../logic/FightingGame.js';
-import { SkillButton } from './SkillButton.js';
+import { SkillButton } from './graphics/SkillButton.js';
 
 export class Fighting extends Scene {
     constructor() {
@@ -74,7 +74,7 @@ export class Fighting extends Scene {
             this.skillButtons.push(new SkillButton(this, x, y, skills[i]));
         }
         
-        const startAngleRight =  - Math.PI / 4 - Math.PI / 2;
+        const startAngleRight =  - Math.PI / 4 - Math.PI;
         for (let i = 3; i < 6; i++) {
             const angle =  startAngleRight + skillSpacing * (i - 1);
             const x = rightCircleCenterX + Math.cos(angle) * circleRadius;

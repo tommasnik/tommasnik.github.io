@@ -4,18 +4,18 @@ export class SkillButton {
         this.skill = skill;
         this.radius = 30;
 
-        // Create the base circle
-        this.button = scene.add.circle(x, y, this.radius, 0x444444)
+        this.baseButton = scene.add.circle(x, y, this.radius, 0x444444)
             .setInteractive()
             .setDepth(1);
 
-        // Create cooldown overlay
-        this.cooldownOverlay = scene.add.graphics()
-            .setDepth(2);
-        this.cooldownOverlay.x = x;
-        this.cooldownOverlay.y = y;
+        this.cooldownButton = scene.add.circle(x, y, this.radius, 0x666666)
+            .setDepth(1);
 
-        // Create skill name text
+        this.mask = scene.add.graphics().setVisible(false);
+        this.mask.x = x;
+        this.mask.y = y;
+        this.cooldownButton.mask = new Phaser.Display.Masks.BitmapMask(scene, this.mask);
+
         this.text = scene.add.text(x, y, skill.name, {
             fontSize: '14px',
             color: '#ffffff',
@@ -24,7 +24,6 @@ export class SkillButton {
             .setOrigin(0.5)
             .setDepth(3);
 
-        // Create flash effect for when cooldown completes
         this.flash = scene.add.circle(x, y, this.radius, 0xffffff)
             .setAlpha(0)
             .setDepth(4);
@@ -33,7 +32,7 @@ export class SkillButton {
     }
 
     setupEventHandlers() {
-        this.button.on('pointerdown', () => {
+        this.baseButton.on('pointerdown', () => {
             if (this.skill.canUse()) {
                 this.scene.onSkillButtonClick(this.skill);
             }
@@ -43,29 +42,18 @@ export class SkillButton {
     update() {
         const cooldownPercent = this.skill.getCooldownPercentage();
 
-        // Update cooldown overlay
-        this.cooldownOverlay.clear();
+        this.mask.clear();
         if (cooldownPercent > 0) {
-            this.cooldownOverlay.fillStyle(0x666666, 0.8);
-            
-            // Draw cooldown arc (clockwise from top)
-            const startAngle = -Math.PI / 2;
-            const endAngle = startAngle + (2 * Math.PI * cooldownPercent);
-            
-            this.cooldownOverlay.beginPath();
-            this.cooldownOverlay.arc(0, 0, this.radius, startAngle, endAngle, false);
-            this.cooldownOverlay.lineTo(0, 0);
-            this.cooldownOverlay.closePath();
-            this.cooldownOverlay.fill();
+            this.mask.fillStyle(0, 1);
+            this.mask.beginPath();
+            this.mask.slice(0, 0, this.radius, -Math.PI / 2, -Math.PI / 2 - (2 * Math.PI * cooldownPercent), false);
+            this.mask.fillPath();
 
             this.text.setColor('#888888');
-            this.button.setFillStyle(0x666666);
         } else {
             this.text.setColor('#ffffff');
-            this.button.setFillStyle(0x444444);
         }
 
-        // Flash effect when cooldown completes
         if (cooldownPercent === 0 && this.previousCooldown > 0) {
             this.scene.tweens.add({
                 targets: this.flash,
@@ -79,8 +67,9 @@ export class SkillButton {
     }
 
     destroy() {
-        this.button.destroy();
-        this.cooldownOverlay.destroy();
+        this.baseButton.destroy();
+        this.cooldownButton.destroy();
+        this.mask.destroy();
         this.text.destroy();
         this.flash.destroy();
     }
