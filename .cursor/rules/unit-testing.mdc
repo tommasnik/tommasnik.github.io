@@ -1,4 +1,9 @@
-# Unit Testing Best Practices
+---
+description: when writing unit tests
+globs: 
+alwaysApply: false
+---
+# Unit Testing
 
 ## Test Design & Structure
 - Write tests for all core game logic and utility functions.
