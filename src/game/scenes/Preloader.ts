@@ -33,6 +33,37 @@ export class Preloader extends Scene
         this.load.setPath('assets');
 
         this.load.image('logo', 'logo.png');
+
+        const orcAnimations = [
+            'backslash', 'climb', 'combat_idle', 'emote', 'halfslash', 'hurt', 'idle', 'jump', 'run', 'shoot', 'sit', 'slash', 'spellcast', 'thrust', 'walk'
+        ];
+        const zombieAnimations = [
+            'backslash', 'climb', 'combat_idle', 'emote', 'halfslash', 'hurt', 'idle', 'jump', 'run', 'shoot', 'sit', 'slash', 'spellcast', 'thrust', 'walk'
+        ];
+        const wizardAnimations = [
+            'backslash', 'climb', 'combat_idle', 'emote', 'halfslash', 'hurt', 'idle', 'jump', 'run', 'shoot', 'sit', 'slash', 'spellcast', 'thrust', 'walk'
+        ];
+        orcAnimations.forEach(anim => {
+            this.load.spritesheet(
+                `orc_${anim}`,
+                `sprites/orc/standard/${anim}.png`,
+                { frameWidth: 64, frameHeight: 64 }
+            );
+        });
+        zombieAnimations.forEach(anim => {
+            this.load.spritesheet(
+                `zombie_${anim}`,
+                `sprites/zombie/standard/${anim}.png`,
+                { frameWidth: 64, frameHeight: 64 }
+            );
+        });
+        wizardAnimations.forEach(anim => {
+            this.load.spritesheet(
+                `wizard_${anim}`,
+                `sprites/wizard/standard/${anim}.png`,
+                { frameWidth: 64, frameHeight: 64 }
+            );
+        });
     }
 
     create (): void

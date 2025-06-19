@@ -7,8 +7,8 @@ export class FightScene extends Scene {
     skillButtons: SkillButton[];
     healthBars: Record<string, { background: Phaser.GameObjects.Rectangle; fill: Phaser.GameObjects.Rectangle }>;
     lastUpdateTime: number;
-    playerFighter!: Phaser.GameObjects.Rectangle;
-    opponentFighter!: Phaser.GameObjects.Rectangle;
+    playerFighter!: Phaser.GameObjects.Sprite;
+    opponentFighter!: Phaser.GameObjects.Sprite;
 
     constructor() {
         super('FightScene');
@@ -25,13 +25,28 @@ export class FightScene extends Scene {
         this.createSkillButtons();
         this.createKeyboardInput();
         this.createBackButton();
+
+        this.anims.create({
+            key: 'orc_combat_idle',
+            frames: this.anims.generateFrameNumbers('orc_combat_idle', { start: 4, end: 5 }),
+            frameRate: 5,
+            repeat: -1
+        });
+        this.opponentFighter.play('orc_combat_idle');
+
+        this.anims.create({
+            key: 'wizard_combat_idle',
+            frames: this.anims.generateFrameNumbers('wizard_spellcast', { start: 0, end: 6 }),
+            frameRate: 5,
+            repeat: -1
+        });
+        this.playerFighter.play('wizard_spellcast');
     }
 
     createFighters(): void {
-        this.playerFighter = this.add.rectangle(200, 600, 60, 100, 0x00ff00);
-        this.opponentFighter = this.add.rectangle(200, 200, 60, 100, 0xff0000);
+        this.playerFighter = this.add.sprite(200, 600, 'wizard_spellcast', 0);
+        this.opponentFighter = this.add.sprite(200, 200, 'orc_combat_idle', 5);
         this.add.text(200, 650, 'Player', { fontSize: '16px', color: '#ffffff' }).setOrigin(0.5);
-        this.add.text(200, 150, 'Opponent', { fontSize: '16px', color: '#ffffff' }).setOrigin(0.5);
     }
 
     createHealthBars(): void {
