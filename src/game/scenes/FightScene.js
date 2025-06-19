@@ -2,9 +2,9 @@ import { Scene } from 'phaser';
 import { FightingGame } from '../logic/FightingGame.js';
 import { SkillButton } from './graphics/SkillButton.js';
 
-export class Fighting extends Scene {
+export class FightScene extends Scene {
     constructor() {
-        super('Fighting');
+        super('FightScene');
         this.gameLogic = new FightingGame();
         this.skillButtons = [];
         this.healthBars = {};

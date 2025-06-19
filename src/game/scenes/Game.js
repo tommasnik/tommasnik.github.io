@@ -27,7 +27,7 @@ export class Game extends Scene
         }).setOrigin(0.5).setInteractive();
 
         fightButton.on('pointerdown', () => {
-            this.scene.start('Fighting');
+            this.scene.start('FightScene');
         });
     }
 }
