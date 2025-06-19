@@ -1,0 +1,25 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+The generating of sprites works like this:
+- you configure how the character should look like and what it should wear
+- the configuration is a set of filters, e.g. "body=Body_color_amber&head=Human_male_amber&beards=Beard_rose&cape=Solid_rose&beard=Basic_Beard_ash&sex=female&shield=Crusader_shield_crusader&sash=Obi_blue"
+- each filter is created like this:
+
+There's a category (see the _index.json file for all categories). Each category has values - it's the values in _index.json file. It also has it's own configuration file (see belt.json for example). There are category values (e.g. "Belly_belt" ) and colors for such value (e.g. "brown") in the configuration files. From these you will create the filter like this:
+<category>=<value>_<color>
+e.g. belt=Belly_belt_brown
+
+Then you create a url filter (see the previous example) for all selected filters.
+
+The first step is to go through the _index.json to get a good set of categories and values and then you will just add the colors according to the appropriate files.
+
+When you have filters, generate url:
+https://liberatedpixelcup.github.io/Universal-LPC-Spritesheet-Character-Generator/#?{{generated_filters}}
+
+
+#file:_index.json #file:belt.json 
+
+
