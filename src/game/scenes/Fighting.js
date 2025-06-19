@@ -1,5 +1,6 @@
 import { Scene } from 'phaser';
 import { FightingGame } from '../logic/FightingGame.js';
+import { SkillButton } from './SkillButton.js';
 
 export class Fighting extends Scene {
     constructor() {
@@ -51,26 +52,34 @@ export class Fighting extends Scene {
     }
 
     createSkillButtons() {
-        const buttonSize = 50;
-        const buttonSpacing = 60;
-        const startX = 50;
-        const startY = 720;
-        const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+        const skills = this.gameLogic.getSkills();
+        const circleRadius = 120;
+        const screenPadding = 20;
+        const screenWidth = 400;
+        const screenHeight = 800;
         
-        for (let i = 0; i < 6; i++) {
-            const x = startX + (i * buttonSpacing);
-            const y = startY;
-            
-            const button = this.add.rectangle(x, y, buttonSize, buttonSize, 0x444444)
-                .setInteractive()
-                .on('pointerdown', () => this.onSkillButtonClick(i));
-            
-            const text = this.add.text(x, y, letters[i], {
-                fontSize: '20px',
-                color: '#ffffff'
-            }).setOrigin(0.5);
-            
-            this.skillButtons.push({ button, text, index: i });
+        const leftCircleCenterX = screenPadding;
+        const leftCircleCenterY = screenHeight - screenPadding;
+        const rightCircleCenterX = screenWidth - screenPadding;
+        const rightCircleCenterY = screenHeight - screenPadding;
+        
+        const skillSpacing = Math.PI / 6;
+        
+        const startAngleLeft = - Math.PI / 4;
+        
+        for (let i = 0; i < 3; i++) {
+            const angle = startAngleLeft + skillSpacing * (i - 1);
+            const x = leftCircleCenterX + Math.cos(angle) * circleRadius;
+            const y = leftCircleCenterY + Math.sin(angle) * circleRadius;
+            this.skillButtons.push(new SkillButton(this, x, y, skills[i]));
+        }
+        
+        const startAngleRight =  - Math.PI / 4 - Math.PI / 2;
+        for (let i = 0; i < 3; i++) {
+            const angle =  startAngleRight + skillSpacing * (i - 1);
+            const x = rightCircleCenterX + Math.cos(angle) * circleRadius;
+            const y = rightCircleCenterY + Math.sin(angle) * circleRadius;
+            this.skillButtons.push(new SkillButton(this, x, y, skills[i + 3]));
         }
     }
 
@@ -94,8 +103,11 @@ export class Fighting extends Scene {
         });
     }
 
-    onSkillButtonClick(skillIndex) {
-        this.gameLogic.useSkill(skillIndex);
+    onSkillButtonClick(skill) {
+        const skillIndex = this.gameLogic.getSkills().indexOf(skill);
+        if (skillIndex !== -1) {
+            this.gameLogic.useSkill(skillIndex);
+        }
     }
 
     update(time, delta) {
@@ -114,20 +126,7 @@ export class Fighting extends Scene {
     }
 
     updateSkillButtons() {
-        const skills = this.gameLogic.getSkills();
-        
-        this.skillButtons.forEach((buttonData, index) => {
-            const skill = skills[index];
-            const cooldownPercent = skill.getCooldownPercentage();
-            
-            if (cooldownPercent > 0) {
-                buttonData.button.setFillStyle(0x666666);
-                buttonData.text.setColor('#888888');
-            } else {
-                buttonData.button.setFillStyle(0x444444);
-                buttonData.text.setColor('#ffffff');
-            }
-        });
+        this.skillButtons.forEach(button => button.update());
     }
 
     checkGameState() {
