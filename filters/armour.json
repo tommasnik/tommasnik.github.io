@@ -1,0 +1,48 @@
+{
+  "Leather": [
+    "leather",
+    "black",
+    "blue",
+    "bluegray",
+    "brown",
+    "charcoal",
+    "forest",
+    "gray",
+    "green",
+    "lavender",
+    "maroon",
+    "navy",
+    "orange",
+    "pink",
+    "purple",
+    "red",
+    "rose",
+    "sky",
+    "slate",
+    "tan",
+    "teal",
+    "walnut",
+    "white",
+    "yellow"
+  ],
+  "Legion": [
+    "steel",
+    "iron",
+    "ceramic",
+    "brass",
+    "copper",
+    "bronze",
+    "silver",
+    "gold"
+  ],
+  "Plate": [
+    "steel",
+    "iron",
+    "ceramic",
+    "brass",
+    "copper",
+    "bronze",
+    "silver",
+    "gold"
+  ]
+}

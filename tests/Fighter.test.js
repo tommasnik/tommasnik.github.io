@@ -1,4 +1,4 @@
-import { Fighter } from '../src/game/logic/Fighter.js';
+import { Fighter } from '../src/game/logic/Fighter';
 
 describe('Fighter', () => {
     let fighter;

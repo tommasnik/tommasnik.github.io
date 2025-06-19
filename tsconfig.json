@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "outDir": "dist",
+    "allowJs": false,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "types": ["node", "jest", "phaser"]
+  },
+  "include": ["src", "tests"],
+  "exclude": ["node_modules", "dist"]
+} 

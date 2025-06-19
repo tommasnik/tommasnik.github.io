@@ -1,0 +1,53 @@
+{
+  "Crusader_shield": [
+    "crusader"
+  ],
+  "Heater_Shield_Base": [
+    "brown",
+    "coffee",
+    "oak",
+    "tan",
+    "umber"
+  ],
+  "Kite": [
+    "kite_blue_blue",
+    "kite_blue_gray",
+    "kite_gray_blue",
+    "kite_gray_gray",
+    "kite_gray_green",
+    "kite_gray_orange",
+    "kite_gray",
+    "kite_green_gray",
+    "kite_orange",
+    "kite_red_gray"
+  ],
+  "Plus_shield": [
+    "plus"
+  ],
+  "Revised_Heater_Shield_Base": [
+    "brown",
+    "coffee",
+    "oak",
+    "tan",
+    "umber"
+  ],
+  "Scutum_shield": [
+    "scutum"
+  ],
+  "Shield": [
+    "crusader",
+    "spartan",
+    "round_black",
+    "round_brown",
+    "round_gold",
+    "round_green",
+    "round_silver",
+    "round_yellow"
+  ],
+  "Spartan_shield": [
+    "spartan"
+  ],
+  "Two_engrailed_shield": [
+    "two_engrailed"
+  ]
+}

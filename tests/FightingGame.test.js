@@ -1,4 +1,4 @@
-import { FightingGame } from '../src/game/logic/FightingGame.js';
+import { FightingGame } from '../src/game/logic/FightingGame';
 
 describe('FightingGame', () => {
     let game;

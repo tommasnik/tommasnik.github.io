@@ -1,0 +1,22 @@
+{
+  "Plated_Toe": [
+    "steel",
+    "iron",
+    "ceramic",
+    "brass",
+    "copper",
+    "bronze",
+    "silver",
+    "gold"
+  ],
+  "Thick_Plated_Toe": [
+    "steel",
+    "iron",
+    "ceramic",
+    "brass",
+    "copper",
+    "bronze",
+    "silver",
+    "gold"
+  ]
+}

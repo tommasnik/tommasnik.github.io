@@ -1,4 +1,4 @@
-import { Skill } from '../src/game/logic/Skill.js';
+import { Skill } from '../src/game/logic/Skill';
 
 describe('Skill', () => {
     let skill;

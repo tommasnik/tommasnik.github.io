@@ -1,0 +1,21 @@
+{
+  "Jetpack_fins": [
+    "bronze",
+    "gold",
+    "steel"
+  ],
+  "Ore": [
+    "coal",
+    "iron",
+    "steel",
+    "tin",
+    "copper",
+    "bronze",
+    "silver",
+    "gold"
+  ],
+  "Wood": [
+    "3_logs",
+    "9_logs"
+  ]
+}

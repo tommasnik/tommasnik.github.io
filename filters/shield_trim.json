@@ -1,0 +1,26 @@
+{
+  "Heater_Shield_Trim": [
+    "brass",
+    "bronze",
+    "copper",
+    "gold",
+    "iron",
+    "silver",
+    "steel"
+  ],
+  "Revised_Heater_Shield_Trim": [
+    "brass",
+    "bronze",
+    "copper",
+    "gold",
+    "iron",
+    "silver",
+    "steel"
+  ],
+  "Scutum_shield_trim": [
+    "scutum_trim"
+  ],
+  "Two_engrailed_shield_trim": [
+    "two_engrailed_trim"
+  ]
+}
