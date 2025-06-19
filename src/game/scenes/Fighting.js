@@ -75,11 +75,11 @@ export class Fighting extends Scene {
         }
         
         const startAngleRight =  - Math.PI / 4 - Math.PI / 2;
-        for (let i = 0; i < 3; i++) {
+        for (let i = 3; i < 6; i++) {
             const angle =  startAngleRight + skillSpacing * (i - 1);
             const x = rightCircleCenterX + Math.cos(angle) * circleRadius;
             const y = rightCircleCenterY + Math.sin(angle) * circleRadius;
-            this.skillButtons.push(new SkillButton(this, x, y, skills[i + 3]));
+            this.skillButtons.push(new SkillButton(this, x, y, skills[i]));
         }
     }
 
