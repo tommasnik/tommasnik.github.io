@@ -1,0 +1,29 @@
+# Unit Testing Best Practices
+
+## Test Design & Structure
+- Write tests for all core game logic and utility functions.
+- Keep tests isolated and independent from each other.
+- Keep each test focused on a single behavior or outcome.
+- Use descriptive test names that reflect the behavior under test.
+- Organize tests by feature or module for clarity.
+
+## Code Quality in Tests
+- Use strong typing in test code; avoid `any`.
+- Prefer pure functions for testable logic.
+- Mock external dependencies only when necessary.
+- Avoid testing third-party libraries; focus on your own code.
+- Keep test setup minimal and explicit.
+
+## Test Environment & Tools
+- Avoid testing rendering or browser-specific features in unit tests.
+- Use lightweight runners like Vitest or Jest for fast feedback.
+- Use deterministic data and seeded randomness for repeatable results.
+- Use fixtures or factories for complex data setup.
+
+## Testing Process & Maintenance
+- Run tests automatically on every commit or pull request.
+- Use code coverage tools to identify untested logic.
+- Refactor code to improve testability when needed.
+- Validate edge cases and error handling paths.
+- Review and update tests as features evolve.
+- Treat tests as first-class citizens in the codebase. 

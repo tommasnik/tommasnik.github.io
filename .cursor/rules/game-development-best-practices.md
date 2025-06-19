@@ -1,0 +1,29 @@
+# Game Development Best Practices
+
+## Architecture & Design
+- Design systems and features with modularity and reusability in mind.
+- Use strong typing and clear interfaces for all game entities and systems.
+- Separate game logic from rendering and input handling.
+- Keep functions and classes small, focused, and single-responsibility.
+- Prefer pure functions for calculations and state transformations.
+
+## Code Quality & Standards
+- Use descriptive, consistent naming conventions for all assets and code.
+- Avoid hardcoding values; use configuration files or constants.
+- Implement robust error handling and input validation.
+- Use dependency injection to decouple systems.
+- Organize assets and code by feature or domain.
+
+## Performance & Optimization
+- Optimize for performance, especially on mobile devices.
+- Profile and optimize bottlenecks early.
+- Use state machines for managing game states and transitions.
+- Decouple UI from core game logic for flexibility.
+
+## Development Process
+- Use version control for all assets and code.
+- Document complex systems through clear naming and structure.
+- Regularly playtest to validate gameplay and UX.
+- Write automated tests for critical logic.
+- Plan for scalability and future content updates.
+- Maintain a clear, prioritized backlog of features and bugs. 

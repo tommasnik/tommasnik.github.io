@@ -1,0 +1,17 @@
+# Phaser.js and Game Logic Separation
+
+## Core Principles
+- Move all core game logic outside of Phaser scenes and objects.
+- Design logic as pure functions, independent of Phaser APIs.
+- Use modules to organize reusable logic and utilities.
+
+## Architecture & Design
+- Pass Phaser classes or configuration as parameters (dependency injection).
+- Test Phaser.Math utilities directly, as they are pure JS.
+- Avoid mocking unless interacting with Phaser-specific APIs.
+
+## Testing Strategy
+- Keep unit tests free of DOM, canvas, or rendering dependencies.
+- Use lightweight test runners for headless execution.
+- Eliminate randomness in tests or use seeded generators.
+- Keep tests small, focused, and deterministic. 
