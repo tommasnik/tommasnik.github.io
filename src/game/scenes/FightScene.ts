@@ -3,6 +3,7 @@ import { FightingGame } from '../logic/FightingGame';
 import { EffectFactory } from '../effects/EffectFactory';
 import { Fighter } from '../graphics/Fighter';
 import { HealthBar } from '../graphics/HealthBar';
+import { CastingRing } from '../graphics/CastingRing';
 import { BackButton } from '../ui/BackButton';
 import { SkillButtonManager } from '../ui/SkillButtonManager';
 import { GameOverDisplay } from '../ui/GameOverDisplay';
@@ -17,6 +18,7 @@ export class FightScene extends Scene {
     private opponentFighter!: Fighter;
     private playerHealthBar!: HealthBar;
     private opponentHealthBar!: HealthBar;
+    private castingRing!: CastingRing;
     private backButton!: BackButton;
     private skillButtonManager!: SkillButtonManager;
     private gameOverDisplay!: GameOverDisplay;
@@ -50,6 +52,8 @@ export class FightScene extends Scene {
         this.opponentHealthBar = new HealthBar(this, 200, 120, 200, 20);
         this.opponentHealthBar.setFillColor(GameConstants.UI.HEALTH_BAR.opponentColor);
 
+        this.castingRing = new CastingRing(this);
+
         this.backButton = new BackButton(this, 350, 50);
         this.inputManager = new InputManager(this, this.gameLogic);
         this.inputManager.setupInput();
@@ -81,6 +85,7 @@ export class FightScene extends Scene {
     update(time: number, delta: number): void {
         this.gameLogic.update(delta);
         this.updateHealthBars();
+        this.updateCastingRing();
         this.skillButtonManager.update();
         this.checkGameState();
         this.skillAnimationSystem.handleSkillAnimations();
@@ -92,6 +97,23 @@ export class FightScene extends Scene {
         
         this.playerHealthBar.updateHealth(playerHealthPercent);
         this.opponentHealthBar.updateHealth(opponentHealthPercent);
+    }
+
+    private updateCastingRing(): void {
+        const currentlyCastingSkill = this.gameLogic.getCurrentlyCastingSkill();
+        const playerPos = this.playerFighter.getPosition();
+        
+        if (currentlyCastingSkill && currentlyCastingSkill.isCasting) {
+            const progress = currentlyCastingSkill.getCastProgress();
+            
+            if (!this.castingRing.isVisible) {
+                this.castingRing.startCasting(currentlyCastingSkill.animationType, playerPos.x, playerPos.y);
+            } else {
+                this.castingRing.updateProgress(progress, playerPos.x, playerPos.y);
+            }
+        } else {
+            this.castingRing.stopCasting();
+        }
     }
 
     private checkGameState(): void {
@@ -121,6 +143,7 @@ export class FightScene extends Scene {
         this.opponentFighter.destroy();
         this.playerHealthBar.destroy();
         this.opponentHealthBar.destroy();
+        this.castingRing.destroy();
         this.backButton.destroy();
     }
 

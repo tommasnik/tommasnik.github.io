@@ -73,6 +73,7 @@ this.effects.set('newskill', new NewSkillEffect(this.scene));
 ### Graphics Components
 - **Fighter**: Manages fighter sprites and animations
 - **HealthBar**: Displays and updates health bars
+- **CastingRing**: Displays casting progress ring around the player during skill casting
 
 ### Effect System
 - **ProjectileEffect**: Base class for projectile-based skills
@@ -154,4 +155,37 @@ When holding a skill button:
 - **SkillButtonManager**: Manages all skill buttons and their layout
 - **KeyboardInputManager**: Handles keyboard input with press-and-hold support
 - **AnimationManager**: Manages skill animations and effects
-- **Scenes**: Game state management (Menu, Fight, Game Over, etc.) 
+- **Scenes**: Game state management (Menu, Fight, Game Over, etc.)
+
+## Casting Ring System
+
+The CastingRing component provides visual feedback during skill casting:
+
+### Features
+- **Progress Ring**: Shows casting progress as a circular arc around the player
+- **Skill-Specific Colors**: Each skill type has its own color theme:
+  - Fireball: Orange (0xff6600)
+  - Lightning: Cyan (0x00ffff)
+  - Ice Spike: Light Blue (0x00ccff)
+  - Meteor: Red-Orange (0xff3300)
+  - Shield: Blue (0x0066ff)
+  - Heal: Green (0x00ff66)
+- **Glow Effect**: Adds a subtle glow around the progress ring
+- **Dynamic Alpha**: Ring becomes more opaque as casting progresses
+- **Automatic Positioning**: Follows the player's position
+
+### Configuration
+The casting ring can be configured in `GameConstants.UI.CASTING_RING`:
+- `radius`: Size of the casting ring (default: 50)
+- `thickness`: Line thickness (default: 4)
+- `glowOffset`: Distance of glow effect from main ring (default: 8)
+- `glowAlphaMultiplier`: Opacity of glow effect (default: 0.3)
+- `baseAlpha`: Base opacity of the ring (default: 0.8)
+- `progressAlphaMultiplier`: Additional opacity as casting progresses (default: 0.2)
+
+### Integration
+The CastingRing is automatically managed by the FightScene:
+- Starts when a skill begins casting
+- Updates progress during casting
+- Stops when casting is complete or cancelled
+- Positioned around the player character 

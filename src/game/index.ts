@@ -1,6 +1,7 @@
 // Graphics Components
 export { Fighter } from './graphics/Fighter';
 export { HealthBar } from './graphics/HealthBar';
+export { CastingRing } from './graphics/CastingRing';
 
 // Animation System
 export { AnimationManager } from './animations/AnimationManager';
@@ -21,7 +22,7 @@ export { SkillButtonManager } from './ui/SkillButtonManager';
 export { GameOverDisplay } from './ui/GameOverDisplay';
 
 // Input System
-export { KeyboardInputManager } from './input/KeyboardInputManager';
+export { InputManager } from './input/KeyboardInputManager';
 
 // Systems
 export { SkillAnimationSystem } from './systems/SkillAnimationSystem';

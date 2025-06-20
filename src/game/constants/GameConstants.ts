@@ -102,6 +102,15 @@ export const GameConstants = {
             progressRingOffset: 2
         },
         
+        CASTING_RING: {
+            radius: 50,
+            thickness: 4,
+            glowOffset: 8,
+            glowAlphaMultiplier: 0.3,
+            baseAlpha: 0.8,
+            progressAlphaMultiplier: 0.2
+        },
+        
         HEALTH_BAR: {
             width: 200,
             height: 20,
