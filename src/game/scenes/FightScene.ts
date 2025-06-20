@@ -1,6 +1,5 @@
 import { Scene } from 'phaser';
 import { FightingGame } from '../logic/FightingGame';
-import { AnimationManager } from '../animations/AnimationManager';
 import { EffectFactory } from '../effects/EffectFactory';
 import { Fighter } from '../graphics/Fighter';
 import { HealthBar } from '../graphics/HealthBar';
@@ -12,7 +11,6 @@ import { SkillAnimationSystem } from '../systems/SkillAnimationSystem';
 
 export class FightScene extends Scene {
     private gameLogic: FightingGame;
-    private animationManager!: AnimationManager;
     private effectFactory!: EffectFactory;
     private playerFighter!: Fighter;
     private opponentFighter!: Fighter;
@@ -23,6 +21,8 @@ export class FightScene extends Scene {
     private gameOverDisplay!: GameOverDisplay;
     private keyboardInputManager!: KeyboardInputManager;
     private skillAnimationSystem!: SkillAnimationSystem;
+    private gameOverTimer: ReturnType<typeof setTimeout> | null = null;
+    
 
     constructor() {
         super('FightScene');
@@ -38,9 +38,6 @@ export class FightScene extends Scene {
     }
 
     private initializeComponents(): void {
-        this.animationManager = new AnimationManager(this);
-        this.animationManager.createFighterAnimations();
-
         this.effectFactory = new EffectFactory(this);
 
         this.playerFighter = new Fighter(this, 200, 600, 'wizard_spellcast', 0, 'Player', 'wizard_combat_idle');
@@ -100,15 +97,21 @@ export class FightScene extends Scene {
         
         if (gameState === 'playerWon') {
             this.gameOverDisplay.showWinMessage();
-            setTimeout(() => {
-                this.cleanup();
-                this.gameLogic.reset();
-                this.scene.start('Game');
-            }, 2000);
+            if (!this.gameOverTimer) {
+                this.gameOverTimer = setTimeout(() => {
+                    this.cleanup();
+                    this.gameLogic.reset();
+                    this.scene.start('Game');
+                }, 2000);
+            }
         }
     }
 
     private cleanup(): void {
+        if (this.gameOverTimer) {
+            clearTimeout(this.gameOverTimer);
+            this.gameOverTimer = null;
+        }
         this.skillButtonManager.destroy();
         this.gameOverDisplay.destroy();
         this.keyboardInputManager.destroy();

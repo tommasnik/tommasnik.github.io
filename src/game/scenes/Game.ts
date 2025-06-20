@@ -20,7 +20,7 @@ export class Game extends Scene
             padding: { x: 20, y: 10 }
         }).setOrigin(0.5).setInteractive();
 
-        fightButton.on('pointerdown', () => {
+        fightButton.on('pointerup', () => {
             this.scene.start('FightScene');
         });
     }

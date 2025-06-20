@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { Skill } from '../../logic/Skill';
+import { Skill } from '../logic/Skill';
 
 export class SkillButton {
     scene: Phaser.Scene;

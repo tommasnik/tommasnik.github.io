@@ -1,5 +1,5 @@
 import { Scene } from 'phaser';
-import { SkillButton } from '../scenes/graphics/SkillButton';
+import { SkillButton } from '../graphics/SkillButton';
 import { FightingGame } from '../logic/FightingGame';
 
 export class SkillButtonManager {
