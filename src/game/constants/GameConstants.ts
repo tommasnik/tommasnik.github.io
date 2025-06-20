@@ -1,9 +1,9 @@
 export const GameConstants = {
     // Skill System
     SKILLS: {
-        CAST_TIME_MULTIPLIER: 0.1, // Cast time as fraction of cooldown (default: 1/10)
-        MIN_CAST_TIME: 200, // Minimum cast time in milliseconds
-        MAX_CAST_TIME: 2000, // Maximum cast time in milliseconds
+        CAST_TIME_MULTIPLIER: 0.15, // Cast time as fraction of cooldown (increased from 0.1)
+        MIN_CAST_TIME: 300, // Minimum cast time in milliseconds (increased from 200)
+        MAX_CAST_TIME: 1500, // Maximum cast time in milliseconds (decreased from 2000)
         
         // Skill Definitions
         FIREBALL: {

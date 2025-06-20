@@ -2,15 +2,18 @@ import { Scene } from 'phaser';
 import { SkillButton } from '../graphics/SkillButton';
 import { FightingGame } from '../logic/FightingGame';
 import { GameConstants } from '../constants/GameConstants';
+import { InputManager } from '../input/KeyboardInputManager';
 
 export class SkillButtonManager {
     private scene: Scene;
     private gameLogic: FightingGame;
     private skillButtons: SkillButton[];
+    private inputManager: InputManager;
 
-    constructor(scene: Scene, gameLogic: FightingGame) {
+    constructor(scene: Scene, gameLogic: FightingGame, inputManager: InputManager) {
         this.scene = scene;
         this.gameLogic = gameLogic;
+        this.inputManager = inputManager;
         this.skillButtons = [];
     }
 
@@ -32,7 +35,7 @@ export class SkillButtonManager {
             const angle = layout.leftStartAngle + layout.skillSpacing * (i - 1);
             const x = leftCircleCenterX + Math.cos(angle) * layout.circleRadius;
             const y = leftCircleCenterY + Math.sin(angle) * layout.circleRadius;
-            this.skillButtons.push(new SkillButton(this.scene, x, y, skills[i], this.onSkillButtonClick.bind(this)));
+            this.skillButtons.push(new SkillButton(this.scene, x, y, skills[i], this.inputManager));
         }
     }
 
@@ -44,14 +47,7 @@ export class SkillButtonManager {
             const angle = layout.rightStartAngle + layout.skillSpacing * (i - 1);
             const x = rightCircleCenterX + Math.cos(angle) * layout.circleRadius;
             const y = rightCircleCenterY + Math.sin(angle) * layout.circleRadius;
-            this.skillButtons.push(new SkillButton(this.scene, x, y, skills[i], this.onSkillButtonClick.bind(this)));
-        }
-    }
-
-    private onSkillButtonClick(skill: any): void {
-        const skillIndex = this.gameLogic.getSkills().indexOf(skill);
-        if (skillIndex !== -1) {
-            this.gameLogic.startCastingSkill(skillIndex);
+            this.skillButtons.push(new SkillButton(this.scene, x, y, skills[i], this.inputManager));
         }
     }
 

@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { Skill } from '../logic/Skill';
 import { GameConstants } from '../constants/GameConstants';
+import { InputManager } from '../input/KeyboardInputManager';
 
 export class SkillButton {
     scene: Phaser.Scene;
@@ -14,15 +15,15 @@ export class SkillButton {
     flash: Phaser.GameObjects.Arc;
     progressRing: Phaser.GameObjects.Graphics;
     previousCooldown: number = 0;
-    private clickHandler: (skill: Skill) => void;
+    private inputManager: InputManager;
     private isPressed: boolean = false;
     private pressStartTime: number = 0;
 
-    constructor(scene: Phaser.Scene, x: number, y: number, skill: Skill, clickHandler: (skill: Skill) => void) {
+    constructor(scene: Phaser.Scene, x: number, y: number, skill: Skill, inputManager: InputManager) {
         this.scene = scene;
         this.skill = skill;
         this.radius = GameConstants.UI.SKILL_BUTTON.radius;
-        this.clickHandler = clickHandler;
+        this.inputManager = inputManager;
 
         this.baseButton = scene.add.circle(x, y, this.radius, 0x444444)
             .setInteractive()
@@ -99,6 +100,7 @@ export class SkillButton {
                 duration: GameConstants.UI.SKILL_BUTTON.pressAnimationDuration,
                 ease: 'Power2'
             });
+            this.inputManager.handleMouseSkillStart(this.skill);
         }
     }
 
@@ -106,7 +108,9 @@ export class SkillButton {
         if (this.isPressed && this.skill.canStartCasting()) {
             const holdTime = Date.now() - this.pressStartTime;
             if (holdTime >= this.skill.castTime) {
-                this.clickHandler(this.skill);
+                this.inputManager.handleMouseSkillComplete(this.skill);
+            } else {
+                this.inputManager.handleMouseSkillCancel();
             }
         }
         this.isPressed = false;
@@ -125,6 +129,7 @@ export class SkillButton {
         this.isPressed = false;
         this.baseButton.setFillStyle(0x444444);
         this.progressRing.setVisible(false);
+        this.inputManager.handleMouseSkillCancel();
         this.scene.tweens.add({
             targets: [this.baseButton, this.icon, this.text],
             scaleX: 1,
@@ -156,10 +161,9 @@ export class SkillButton {
             this.icon.setAlpha(1);
         }
 
-        if (this.isPressed && this.skill.canStartCasting()) {
-            const holdTime = Date.now() - this.pressStartTime;
-            const progress = Math.min(holdTime / this.skill.castTime, 1);
-            
+        // Show progress ring if skill is being cast (keyboard or mouse)
+        if (this.skill.isCasting) {
+            this.progressRing.setVisible(true);
             this.progressRing.clear();
             this.progressRing.lineStyle(
                 GameConstants.UI.SKILL_BUTTON.progressRingThickness,
@@ -172,27 +176,13 @@ export class SkillButton {
                 this.baseButton.y,
                 this.radius + GameConstants.UI.SKILL_BUTTON.progressRingOffset,
                 -Math.PI / 2,
-                -Math.PI / 2 + (2 * Math.PI * progress),
-                false
-            );
-            this.progressRing.strokePath();
-        } else if (castProgress > 0) {
-            this.progressRing.clear();
-            this.progressRing.lineStyle(
-                GameConstants.UI.SKILL_BUTTON.progressRingThickness,
-                0xffff00,
-                1
-            );
-            this.progressRing.beginPath();
-            this.progressRing.arc(
-                this.baseButton.x,
-                this.baseButton.y,
-                this.radius + GameConstants.UI.SKILL_BUTTON.progressRingOffset,
-                -Math.PI / 2,
                 -Math.PI / 2 + (2 * Math.PI * castProgress),
                 false
             );
             this.progressRing.strokePath();
+        } else {
+            this.progressRing.setVisible(false);
+            this.progressRing.clear();
         }
 
         if (cooldownPercent === 0 && this.previousCooldown > 0) {

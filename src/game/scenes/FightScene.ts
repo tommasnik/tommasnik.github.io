@@ -6,7 +6,7 @@ import { HealthBar } from '../graphics/HealthBar';
 import { BackButton } from '../ui/BackButton';
 import { SkillButtonManager } from '../ui/SkillButtonManager';
 import { GameOverDisplay } from '../ui/GameOverDisplay';
-import { KeyboardInputManager } from '../input/KeyboardInputManager';
+import { InputManager } from '../input/KeyboardInputManager';
 import { SkillAnimationSystem } from '../systems/SkillAnimationSystem';
 import { GameConstants } from '../constants/GameConstants';
 
@@ -20,7 +20,7 @@ export class FightScene extends Scene {
     private backButton!: BackButton;
     private skillButtonManager!: SkillButtonManager;
     private gameOverDisplay!: GameOverDisplay;
-    private keyboardInputManager!: KeyboardInputManager;
+    private inputManager!: InputManager;
     private skillAnimationSystem!: SkillAnimationSystem;
     private gameOverTimer: ReturnType<typeof setTimeout> | null = null;
     
@@ -51,12 +51,12 @@ export class FightScene extends Scene {
         this.opponentHealthBar.setFillColor(GameConstants.UI.HEALTH_BAR.opponentColor);
 
         this.backButton = new BackButton(this, 350, 50);
-        this.skillButtonManager = new SkillButtonManager(this, this.gameLogic);
+        this.inputManager = new InputManager(this, this.gameLogic);
+        this.inputManager.setupInput();
+        this.skillButtonManager = new SkillButtonManager(this, this.gameLogic, this.inputManager);
         this.skillButtonManager.createSkillButtons();
 
         this.gameOverDisplay = new GameOverDisplay(this);
-        this.keyboardInputManager = new KeyboardInputManager(this, this.gameLogic);
-        this.keyboardInputManager.setupKeyboardInput();
 
         this.skillAnimationSystem = new SkillAnimationSystem(
             this.gameLogic, 
@@ -116,7 +116,7 @@ export class FightScene extends Scene {
         }
         this.skillButtonManager.destroy();
         this.gameOverDisplay.destroy();
-        this.keyboardInputManager.destroy();
+        this.inputManager.destroy();
         this.playerFighter.destroy();
         this.opponentFighter.destroy();
         this.playerHealthBar.destroy();
