@@ -1,0 +1,29 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="iceGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#e6f3ff;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#b3d9ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#80bfff;stop-opacity:1" />
+    </linearGradient>
+    <filter id="iceGlow">
+      <feGaussianBlur stdDeviation="1" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <path d="M 32 8 L 28 20 L 24 16 L 20 24 L 16 20 L 12 32 L 20 28 L 16 36 L 20 40 L 24 36 L 28 40 L 32 32 L 36 40 L 40 36 L 44 40 L 48 36 L 52 28 L 48 32 L 52 20 L 48 24 L 44 16 L 40 20 L 36 8 Z" 
+        fill="url(#iceGradient)" filter="url(#iceGlow)"/>
+  
+  <path d="M 32 8 L 28 20 L 24 16 L 20 24 L 16 20 L 12 32 L 20 28 L 16 36 L 20 40 L 24 36 L 28 40 L 32 32 L 36 40 L 40 36 L 44 40 L 48 36 L 52 28 L 48 32 L 52 20 L 48 24 L 44 16 L 40 20 L 36 8 Z" 
+        stroke="#4da6ff" stroke-width="1" fill="none" opacity="0.6"/>
+  
+  <circle cx="32" cy="20" r="2" fill="#ffffff" opacity="0.9"/>
+  <circle cx="24" cy="28" r="1" fill="#ffffff" opacity="0.7"/>
+  <circle cx="40" cy="28" r="1" fill="#ffffff" opacity="0.7"/>
+  <circle cx="28" cy="36" r="1" fill="#ffffff" opacity="0.7"/>
+  <circle cx="36" cy="36" r="1" fill="#ffffff" opacity="0.7"/>
+</svg> 

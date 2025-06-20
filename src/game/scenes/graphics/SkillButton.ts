@@ -71,6 +71,10 @@ export class SkillButton {
     }
 
     update(): void {
+        if (!this.text || !this.text.active || !this.icon || !this.icon.active) {
+            return;
+        }
+
         const cooldownPercent = this.skill.getCooldownPercentage();
 
         this.mask.clear();
@@ -100,11 +104,29 @@ export class SkillButton {
     }
 
     destroy(): void {
-        this.baseButton.destroy();
-        this.cooldownButton.destroy();
-        this.mask.destroy();
-        this.text.destroy();
-        this.icon.destroy();
-        this.flash.destroy();
+        if (this.baseButton) {
+            this.baseButton.destroy();
+            this.baseButton = null as any;
+        }
+        if (this.cooldownButton) {
+            this.cooldownButton.destroy();
+            this.cooldownButton = null as any;
+        }
+        if (this.mask) {
+            this.mask.destroy();
+            this.mask = null as any;
+        }
+        if (this.text) {
+            this.text.destroy();
+            this.text = null as any;
+        }
+        if (this.icon) {
+            this.icon.destroy();
+            this.icon = null as any;
+        }
+        if (this.flash) {
+            this.flash.destroy();
+            this.flash = null as any;
+        }
     }
 } 

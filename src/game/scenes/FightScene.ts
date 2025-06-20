@@ -109,6 +109,7 @@ export class FightScene extends Scene {
             padding: { x: 10, y: 5 }
         }).setOrigin(0.5).setInteractive();
         backButton.on('pointerdown', () => {
+            this.cleanup();
             this.scene.start('Game');
         });
     }
@@ -361,7 +362,13 @@ export class FightScene extends Scene {
     }
 
     updateSkillButtons(): void {
-        this.skillButtons.forEach(button => button.update());
+        this.skillButtons = this.skillButtons.filter(button => {
+            if (button && button.text && button.text.active) {
+                button.update();
+                return true;
+            }
+            return false;
+        });
     }
 
     checkGameState(): void {
@@ -372,10 +379,20 @@ export class FightScene extends Scene {
                 color: '#00ff00'
             }).setOrigin(0.5);
             setTimeout(() => {
+                this.cleanup();
                 this.gameLogic.reset();
                 this.scene.start('Game');
             }, 2000);
         }
+    }
+
+    cleanup(): void {
+        this.skillButtons.forEach(button => button.destroy());
+        this.skillButtons = [];
+    }
+
+    shutdown(): void {
+        this.cleanup();
     }
 
     handleSkillAnimations(): void {
