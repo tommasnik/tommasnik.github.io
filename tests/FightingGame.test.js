@@ -18,38 +18,44 @@ describe('FightingGame', () => {
 
     test('should create skills with correct properties', () => {
         const skills = game.skills;
-        expect(skills[0].name).toBe('Punch');
-        expect(skills[0].damage).toBe(10);
+        expect(skills[0].name).toBe('Fireball');
+        expect(skills[0].damage).toBe(15);
         expect(skills[0].keyBinding).toBe('a');
+        expect(skills[0].animationType).toBe('fireball');
+        expect(skills[0].skillType).toBe('offensive');
+        expect(skills[0].targetType).toBe('single');
         
-        expect(skills[1].name).toBe('Kick');
-        expect(skills[1].damage).toBe(15);
+        expect(skills[1].name).toBe('Lightning');
+        expect(skills[1].damage).toBe(20);
         expect(skills[1].keyBinding).toBe('s');
+        expect(skills[1].animationType).toBe('lightning');
+        expect(skills[1].skillType).toBe('offensive');
+        expect(skills[1].targetType).toBe('single');
     });
 
     test('should update skills cooldowns', () => {
         game.skills[0].use();
         game.update(500);
-        expect(game.skills[0].currentCooldown).toBe(500);
+        expect(game.skills[0].currentCooldown).toBe(1500);
     });
 
     test('should use skill by index', () => {
         const result = game.useSkill(0);
         expect(result).toBe(true);
-        expect(game.opponent.currentHealth).toBe(90);
+        expect(game.opponent.currentHealth).toBe(85);
     });
 
     test('should not use skill when on cooldown', () => {
         game.useSkill(0);
         const result = game.useSkill(0);
         expect(result).toBe(false);
-        expect(game.opponent.currentHealth).toBe(90);
+        expect(game.opponent.currentHealth).toBe(85);
     });
 
     test('should use skill by key binding', () => {
         const result = game.useSkillByKey('a');
         expect(result).toBe(true);
-        expect(game.opponent.currentHealth).toBe(90);
+        expect(game.opponent.currentHealth).toBe(85);
     });
 
     test('should return false for invalid key binding', () => {
@@ -63,11 +69,11 @@ describe('FightingGame', () => {
     });
 
     test('should change game state when opponent dies', () => {
-        game.useSkill(5);
-        game.update(10000); // Wait for cooldown
-        game.useSkill(5);
-        game.update(10000); // Wait for cooldown
-        game.useSkill(5);
+        game.useSkill(3);
+        game.update(8000); // Wait for cooldown
+        game.useSkill(3);
+        game.update(8000); // Wait for cooldown
+        game.useSkill(3);
         
         expect(game.gameState).toBe('playerWon');
         expect(game.opponent.isAlive).toBe(false);
@@ -76,7 +82,7 @@ describe('FightingGame', () => {
     test('should get correct health values', () => {
         game.useSkill(0);
         expect(game.getPlayerHealth()).toBe(100);
-        expect(game.getOpponentHealth()).toBe(90);
+        expect(game.getOpponentHealth()).toBe(85);
     });
 
     test('should get correct health percentages', () => {
@@ -84,7 +90,7 @@ describe('FightingGame', () => {
         expect(game.getOpponentHealthPercentage()).toBe(1.0);
         
         game.useSkill(0);
-        expect(game.getOpponentHealthPercentage()).toBe(0.9);
+        expect(game.getOpponentHealthPercentage()).toBe(0.85);
     });
 
     test('should reset game state', () => {
@@ -98,10 +104,10 @@ describe('FightingGame', () => {
     });
 
     test('should handle skills with zero damage', () => {
-        const blockSkill = game.skills[3];
-        expect(blockSkill.damage).toBe(0);
+        const shieldSkill = game.skills[4];
+        expect(shieldSkill.damage).toBe(0);
         
-        const result = game.useSkill(3);
+        const result = game.useSkill(4);
         expect(result).toBe(true);
         expect(game.opponent.currentHealth).toBe(100);
     });

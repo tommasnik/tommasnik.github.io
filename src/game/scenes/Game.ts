@@ -9,15 +9,9 @@ export class Game extends Scene
 
     create (): void
     {
-        this.cameras.main.setBackgroundColor(0x00ff00);
+        
 
-        this.add.image(200, 400, 'background').setAlpha(0.5);
-
-        this.add.text(200, 300, 'Make something fun!\nand share it with us:\nsupport@phaser.io', {
-            fontFamily: 'Arial Black', fontSize: 24, color: '#ffffff',
-            stroke: '#000000', strokeThickness: 6,
-            align: 'center'
-        }).setOrigin(0.5);
+        this.add.image(200, 400, 'background').setAlpha(0.5).setScale(0.55);
 
         const fightButton = this.add.text(200, 500, 'FIGHT', {
             fontFamily: 'Arial Black', fontSize: 32, color: '#ffffff',

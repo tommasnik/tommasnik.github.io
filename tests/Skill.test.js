@@ -4,7 +4,7 @@ describe('Skill', () => {
     let skill;
 
     beforeEach(() => {
-        skill = new Skill('TestSkill', 25, 1000, 'a');
+        skill = new Skill('TestSkill', 25, 1000, 'a', 'fireball');
     });
 
     test('should create skill with correct initial values', () => {
@@ -13,6 +13,9 @@ describe('Skill', () => {
         expect(skill.cooldown).toBe(1000);
         expect(skill.currentCooldown).toBe(0);
         expect(skill.keyBinding).toBe('a');
+        expect(skill.animationType).toBe('fireball');
+        expect(skill.skillType).toBe('offensive');
+        expect(skill.targetType).toBe('single');
     });
 
     test('should be able to use skill when cooldown is zero', () => {
@@ -59,23 +62,45 @@ describe('Skill', () => {
     });
 
     test('should handle zero cooldown skills', () => {
-        const instantSkill = new Skill('Instant', 10, 0, 'b');
+        const instantSkill = new Skill('Instant', 10, 0, 'b', 'lightning');
         expect(instantSkill.canUse()).toBe(true);
         expect(instantSkill.getCooldownPercentage()).toBe(0);
     });
 
     test('should have correct animation types', () => {
-        const shootSkill = new Skill('Shoot', 10, 1000, 'a', 'shoot');
-        const slashSkill = new Skill('Slash', 15, 2000, 's', 'slash');
-        const spellcastSkill = new Skill('Spellcast', 25, 5000, 'd', 'spellcast');
+        const fireballSkill = new Skill('Fireball', 10, 1000, 'a', 'fireball');
+        const lightningSkill = new Skill('Lightning', 15, 2000, 's', 'lightning');
+        const iceSpikeSkill = new Skill('Ice Spike', 25, 5000, 'd', 'ice_spike');
+        const shieldSkill = new Skill('Shield', 0, 4000, 'q', 'shield');
+        const healSkill = new Skill('Heal', 0, 6000, 'w', 'heal');
+        const meteorSkill = new Skill('Meteor', 35, 8000, 'f', 'meteor');
         
-        expect(shootSkill.animationType).toBe('shoot');
-        expect(slashSkill.animationType).toBe('slash');
-        expect(spellcastSkill.animationType).toBe('spellcast');
+        expect(fireballSkill.animationType).toBe('fireball');
+        expect(lightningSkill.animationType).toBe('lightning');
+        expect(iceSpikeSkill.animationType).toBe('ice_spike');
+        expect(shieldSkill.animationType).toBe('shield');
+        expect(healSkill.animationType).toBe('heal');
+        expect(meteorSkill.animationType).toBe('meteor');
     });
 
-    test('should default to slash animation type', () => {
-        const defaultSkill = new Skill('Default', 10, 1000, 'a');
-        expect(defaultSkill.animationType).toBe('slash');
+    test('should have correct skill types', () => {
+        const offensiveSkill = new Skill('Fireball', 10, 1000, 'a', 'fireball', 'offensive');
+        const defensiveSkill = new Skill('Shield', 0, 4000, 'q', 'shield', 'defensive');
+        
+        expect(offensiveSkill.skillType).toBe('offensive');
+        expect(defensiveSkill.skillType).toBe('defensive');
+    });
+
+    test('should have correct target types', () => {
+        const singleSkill = new Skill('Fireball', 10, 1000, 'a', 'fireball', 'offensive', 'single');
+        const aoeSkill = new Skill('Meteor', 35, 8000, 'f', 'meteor', 'offensive', 'aoe');
+        
+        expect(singleSkill.targetType).toBe('single');
+        expect(aoeSkill.targetType).toBe('aoe');
+    });
+
+    test('should have descriptions', () => {
+        const skillWithDesc = new Skill('Fireball', 10, 1000, 'a', 'fireball', 'offensive', 'single', 'Launches a fiery projectile');
+        expect(skillWithDesc.description).toBe('Launches a fiery projectile');
     });
 }); 

@@ -4,15 +4,30 @@ export class Skill {
     cooldown: number;
     currentCooldown: number;
     keyBinding: string;
-    animationType: 'shoot' | 'slash' | 'spellcast';
+    animationType: 'fireball' | 'lightning' | 'ice_spike' | 'shield' | 'heal' | 'meteor';
+    skillType: 'offensive' | 'defensive';
+    targetType: 'single' | 'aoe';
+    description: string;
 
-    constructor(name: string, damage: number, cooldown: number, keyBinding: string, animationType: 'shoot' | 'slash' | 'spellcast' = 'slash') {
+    constructor(
+        name: string, 
+        damage: number, 
+        cooldown: number, 
+        keyBinding: string, 
+        animationType: 'fireball' | 'lightning' | 'ice_spike' | 'shield' | 'heal' | 'meteor',
+        skillType: 'offensive' | 'defensive' = 'offensive',
+        targetType: 'single' | 'aoe' = 'single',
+        description: string = ''
+    ) {
         this.name = name;
         this.damage = damage;
         this.cooldown = cooldown;
         this.currentCooldown = 0;
         this.keyBinding = keyBinding;
         this.animationType = animationType;
+        this.skillType = skillType;
+        this.targetType = targetType;
+        this.description = description;
     }
 
     canUse(): boolean {

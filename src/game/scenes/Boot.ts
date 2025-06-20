@@ -6,7 +6,7 @@ export class Boot extends Scene {
     }
 
     preload(): void {
-        this.load.image('background', 'assets/bg.png');
+        this.load.image('background', 'assets/image.png');
     }
 
     create(): void {

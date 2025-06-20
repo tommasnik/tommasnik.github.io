@@ -151,3 +151,69 @@ Created by [Phaser Studio](mailto:support@phaser.io). Powered by coffee, anime, 
 The Phaser logo and characters are &copy; 2011 - 2025 Phaser Studio Inc.
 
 All rights reserved.
+
+# Magic Fighting Game
+
+A turn-based fighting game featuring a wizard with magical abilities.
+
+## Skills
+
+### Offensive Skills
+
+1. **Fireball** (Key: A)
+   - Damage: 15
+   - Cooldown: 2 seconds
+   - Type: Single target projectile
+   - Description: Launches a fiery projectile at the enemy
+
+2. **Lightning** (Key: S)
+   - Damage: 20
+   - Cooldown: 3.5 seconds
+   - Type: Single target instant
+   - Description: Strikes the enemy with lightning from your staff
+
+3. **Ice Spike** (Key: D)
+   - Damage: 12
+   - Cooldown: 1.5 seconds
+   - Type: Single target projectile
+   - Description: Conjures a sharp ice spike to pierce the enemy
+
+4. **Meteor** (Key: F)
+   - Damage: 35
+   - Cooldown: 8 seconds
+   - Type: Area of effect
+   - Description: Summons a devastating meteor from the sky
+
+### Defensive Skills
+
+5. **Shield** (Key: Q)
+   - Damage: 0 (Defensive)
+   - Cooldown: 4 seconds
+   - Type: Self protection
+   - Description: Creates a magical barrier to protect yourself
+
+6. **Heal** (Key: W)
+   - Healing: 25 HP
+   - Cooldown: 6 seconds
+   - Type: Self healing
+   - Description: Restores your health with healing magic
+
+## Features
+
+- **Visual Effects**: Each skill has unique visual animations and projectile effects
+- **Cooldown System**: Skills have different cooldown times based on their power
+- **Skill Types**: Offensive skills deal damage, defensive skills provide protection/healing
+- **Target Types**: Single target skills vs area of effect skills
+- **Magic Theme**: All skills are themed around elemental magic (fire, lightning, ice, etc.)
+
+## Controls
+
+- Use keyboard keys (A, S, D, F, Q, W) to cast spells
+- Click on skill buttons to cast spells
+- Watch cooldown indicators on skill buttons
+
+## Development
+
+- Built with Phaser 3 and TypeScript
+- Uses Vite for development and building
+- Includes comprehensive unit tests

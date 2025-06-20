@@ -22,12 +22,12 @@ export class FightingGame {
 
     createSkills(): Skill[] {
         return [
-            new Skill('Punch', 10, 1000, 'a', 'shoot'),
-            new Skill('Kick', 15, 2000, 's', 'slash'),
-            new Skill('Special', 25, 5000, 'd', 'spellcast'),
-            new Skill('Block', 0, 1500, 'q', 'slash'),
-            new Skill('Dodge', 0, 3000, 'w', 'shoot'),
-            new Skill('Ultimate', 40, 10000, 'e', 'spellcast')
+            new Skill('Fireball', 15, 2000, 'a', 'fireball', 'offensive', 'single', 'Launches a fiery projectile at the enemy'),
+            new Skill('Lightning', 20, 3500, 's', 'lightning', 'offensive', 'single', 'Strikes the enemy with lightning from your staff'),
+            new Skill('Ice Spike', 12, 1500, 'd', 'ice_spike', 'offensive', 'single', 'Conjures a sharp ice spike to pierce the enemy'),
+            new Skill('Meteor', 35, 8000, 'f', 'meteor', 'offensive', 'aoe', 'Summons a devastating meteor from the sky'),
+            new Skill('Shield', 0, 4000, 'q', 'shield', 'defensive', 'single', 'Creates a magical barrier to protect yourself'),
+            new Skill('Heal', 0, 6000, 'w', 'heal', 'defensive', 'single', 'Restores your health with healing magic')
         ];
     }
 
@@ -47,10 +47,14 @@ export class FightingGame {
 
         skill.use();
         
-        if (skill.damage > 0) {
+        if (skill.skillType === 'offensive' && skill.damage > 0) {
             this.opponent.takeDamage(skill.damage);
             if (!this.opponent.isAlive) {
                 this.gameState = 'playerWon';
+            }
+        } else if (skill.skillType === 'defensive') {
+            if (skill.name === 'Heal') {
+                this.player.heal(25);
             }
         }
 
