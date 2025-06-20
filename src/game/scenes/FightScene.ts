@@ -9,6 +9,8 @@ export class FightScene extends Scene {
     lastUpdateTime: number;
     playerFighter!: Phaser.GameObjects.Sprite;
     opponentFighter!: Phaser.GameObjects.Sprite;
+    isPlayingSkillAnimation: boolean;
+    currentSkillAnimation: string | null;
 
     constructor() {
         super('FightScene');
@@ -16,6 +18,8 @@ export class FightScene extends Scene {
         this.skillButtons = [];
         this.healthBars = {};
         this.lastUpdateTime = 0;
+        this.isPlayingSkillAnimation = false;
+        this.currentSkillAnimation = null;
     }
 
     create(): void {
@@ -25,6 +29,7 @@ export class FightScene extends Scene {
         this.createSkillButtons();
         this.createKeyboardInput();
         this.createBackButton();
+        this.createAnimations();
 
         this.anims.create({
             key: 'orc_combat_idle',
@@ -108,6 +113,53 @@ export class FightScene extends Scene {
         });
     }
 
+    createAnimations(): void {
+        this.anims.create({
+            key: 'wizard_shoot',
+            frames: this.anims.generateFrameNumbers('wizard_shoot', { start: 0, end: 12 }),
+            frameRate: 12,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: 'wizard_slash',
+            frames: this.anims.generateFrameNumbers('wizard_slash', { start: 0, end: 5 }),
+            frameRate: 8,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: 'wizard_spellcast_skill',
+            frames: this.anims.generateFrameNumbers('wizard_spellcast', { start: 0, end: 6 }),
+            frameRate: 6,
+            repeat: 0
+        });
+    }
+
+    playSkillAnimation(animationType: string): void {
+        if (this.isPlayingSkillAnimation) {
+            return;
+        }
+
+        this.isPlayingSkillAnimation = true;
+        this.currentSkillAnimation = animationType;
+        
+        let animationKey: string;
+        if (animationType === 'spellcast') {
+            animationKey = 'wizard_spellcast_skill';
+        } else {
+            animationKey = `wizard_${animationType}`;
+        }
+        
+        this.playerFighter.play(animationKey);
+        
+        this.playerFighter.once('animationcomplete', () => {
+            this.isPlayingSkillAnimation = false;
+            this.currentSkillAnimation = null;
+            this.playerFighter.play('wizard_combat_idle');
+        });
+    }
+
     onSkillButtonClick(skill: any): void {
         const skillIndex = this.gameLogic.getSkills().indexOf(skill);
         if (skillIndex !== -1) {
@@ -120,6 +172,7 @@ export class FightScene extends Scene {
         this.updateHealthBars();
         this.updateSkillButtons();
         this.checkGameState();
+        this.handleSkillAnimations();
     }
 
     updateHealthBars(): void {
@@ -144,6 +197,14 @@ export class FightScene extends Scene {
                 this.gameLogic.reset();
                 this.scene.start('Game');
             }, 2000);
+        }
+    }
+
+    handleSkillAnimations(): void {
+        const lastUsedSkill = this.gameLogic.getLastUsedSkill();
+        if (lastUsedSkill && !this.isPlayingSkillAnimation) {
+            this.playSkillAnimation(lastUsedSkill.animationType);
+            this.gameLogic.clearLastUsedSkill();
         }
     }
 } 

@@ -4,13 +4,15 @@ export class Skill {
     cooldown: number;
     currentCooldown: number;
     keyBinding: string;
+    animationType: 'shoot' | 'slash' | 'spellcast';
 
-    constructor(name: string, damage: number, cooldown: number, keyBinding: string) {
+    constructor(name: string, damage: number, cooldown: number, keyBinding: string, animationType: 'shoot' | 'slash' | 'spellcast' = 'slash') {
         this.name = name;
         this.damage = damage;
         this.cooldown = cooldown;
         this.currentCooldown = 0;
         this.keyBinding = keyBinding;
+        this.animationType = animationType;
     }
 
     canUse(): boolean {

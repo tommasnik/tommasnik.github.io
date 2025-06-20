@@ -105,4 +105,24 @@ describe('FightingGame', () => {
         expect(result).toBe(true);
         expect(game.opponent.currentHealth).toBe(100);
     });
+
+    test('should track last used skill', () => {
+        const skill = game.skills[0];
+        game.useSkill(0);
+        expect(game.getLastUsedSkill()).toBe(skill);
+    });
+
+    test('should clear last used skill', () => {
+        game.useSkill(0);
+        expect(game.getLastUsedSkill()).not.toBe(null);
+        
+        game.clearLastUsedSkill();
+        expect(game.getLastUsedSkill()).toBe(null);
+    });
+
+    test('should reset last used skill on game reset', () => {
+        game.useSkill(0);
+        game.reset();
+        expect(game.getLastUsedSkill()).toBe(null);
+    });
 }); 

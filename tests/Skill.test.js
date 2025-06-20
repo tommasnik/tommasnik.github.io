@@ -63,4 +63,19 @@ describe('Skill', () => {
         expect(instantSkill.canUse()).toBe(true);
         expect(instantSkill.getCooldownPercentage()).toBe(0);
     });
+
+    test('should have correct animation types', () => {
+        const shootSkill = new Skill('Shoot', 10, 1000, 'a', 'shoot');
+        const slashSkill = new Skill('Slash', 15, 2000, 's', 'slash');
+        const spellcastSkill = new Skill('Spellcast', 25, 5000, 'd', 'spellcast');
+        
+        expect(shootSkill.animationType).toBe('shoot');
+        expect(slashSkill.animationType).toBe('slash');
+        expect(spellcastSkill.animationType).toBe('spellcast');
+    });
+
+    test('should default to slash animation type', () => {
+        const defaultSkill = new Skill('Default', 10, 1000, 'a');
+        expect(defaultSkill.animationType).toBe('slash');
+    });
 }); 
