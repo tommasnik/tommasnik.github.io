@@ -19,12 +19,14 @@ export class MeteorEffect extends ProjectileEffect {
         meteor.setPosition(targetX, meteorStartY);
         
         const trail = this.scene.add.graphics();
+
+        const impactY = targetY + 15;
         
         this.scene.tweens.add({
             targets: meteor,
-            y: targetY,
-            duration: 1200,
-            ease: 'Power2',
+            y: impactY,
+            duration: 800,
+            ease: 'Cubic.In',
             onUpdate: () => {
                 trail.clear();
                 trail.fillStyle(0xFF4500, 0.3);
@@ -35,7 +37,7 @@ export class MeteorEffect extends ProjectileEffect {
             onComplete: () => {
                 trail.destroy();
                 meteor.destroy();
-                this.createMeteorImpact(targetX, targetY);
+                this.createMeteorImpact(targetX, impactY);
             }
         });
     }
@@ -74,15 +76,15 @@ export class MeteorEffect extends ProjectileEffect {
             onComplete: () => explosion.destroy()
         });
 
-        this.createFireParticles(x, y);
+        this.createExplosiveParticles(x, y);
         this.createSmokeParticles(x, y);
     }
 
-    private createFireParticles(x: number, y: number): void {
-        for (let i = 0; i < 15; i++) {
+    private createExplosiveParticles(x: number, y: number): void {
+        for (let i = 0; i < 20; i++) {
             const particle = this.scene.add.graphics();
-            const angle = (Math.PI * 2 * i) / 15;
-            const distance = 20 + Math.random() * 30;
+            const angle = (Math.PI * 2 * i) / 20;
+            const distance = 30 + Math.random() * 40;
             const startX = x + Math.cos(angle) * distance;
             const startY = y + Math.sin(angle) * distance;
             
@@ -90,8 +92,10 @@ export class MeteorEffect extends ProjectileEffect {
             particle.fillCircle(0, 0, 3 + Math.random() * 3);
             particle.setPosition(startX, startY);
             
-            const targetX = startX + (Math.random() - 0.5) * 60;
-            const targetY = startY - 40 - Math.random() * 40;
+            const spreadAngle = angle + (Math.random() - 0.5) * Math.PI / 2;
+            const velocity = 40 + Math.random() * 60;
+            const targetX = x + Math.cos(spreadAngle) * velocity;
+            const targetY = y + Math.sin(spreadAngle) * velocity;
             
             this.scene.tweens.add({
                 targets: particle,
@@ -100,7 +104,7 @@ export class MeteorEffect extends ProjectileEffect {
                 alpha: 0,
                 scaleX: 0.5,
                 scaleY: 0.5,
-                duration: 800 + Math.random() * 400,
+                duration: 600 + Math.random() * 400,
                 ease: 'Power2',
                 onComplete: () => particle.destroy()
             });
@@ -108,10 +112,10 @@ export class MeteorEffect extends ProjectileEffect {
     }
 
     private createSmokeParticles(x: number, y: number): void {
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < 12; i++) {
             const particle = this.scene.add.graphics();
             const angle = Math.random() * Math.PI * 2;
-            const distance = 10 + Math.random() * 20;
+            const distance = 15 + Math.random() * 25;
             const startX = x + Math.cos(angle) * distance;
             const startY = y + Math.sin(angle) * distance;
             
@@ -119,8 +123,10 @@ export class MeteorEffect extends ProjectileEffect {
             particle.fillCircle(0, 0, 4 + Math.random() * 4);
             particle.setPosition(startX, startY);
             
-            const targetX = startX + (Math.random() - 0.5) * 40;
-            const targetY = startY - 60 - Math.random() * 40;
+            const spreadAngle = angle + (Math.random() - 0.5) * Math.PI / 3;
+            const velocity = 30 + Math.random() * 50;
+            const targetX = x + Math.cos(spreadAngle) * velocity;
+            const targetY = y + Math.sin(spreadAngle) * velocity;
             
             this.scene.tweens.add({
                 targets: particle,
@@ -129,7 +135,7 @@ export class MeteorEffect extends ProjectileEffect {
                 alpha: 0,
                 scaleX: 2,
                 scaleY: 2,
-                duration: 1200 + Math.random() * 600,
+                duration: 1000 + Math.random() * 600,
                 ease: 'Power2',
                 onComplete: () => particle.destroy()
             });

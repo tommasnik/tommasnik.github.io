@@ -2,14 +2,14 @@ export const GameConstants = {
     // Skill System
     SKILLS: {
         CAST_TIME_MULTIPLIER: 0.2, // Cast time as fraction of cooldown (increased from 0.1)
-        MIN_CAST_TIME: 400, // Minimum cast time in milliseconds (increased from 200)
+        MIN_CAST_TIME: 200, // Minimum cast time in milliseconds (increased from 200)
         MAX_CAST_TIME: 1500, // Maximum cast time in milliseconds (decreased from 2000)
         
         // Skill Definitions
         FIREBALL: {
             name: 'Fireball',
             damage: 15,
-            cooldown: 2000,
+            cooldown: 3000,
             keyBinding: 'a',
             animationType: 'fireball' as const,
             skillType: 'offensive' as const,
@@ -19,8 +19,8 @@ export const GameConstants = {
         
         LIGHTNING: {
             name: 'Lightning',
-            damage: 20,
-            cooldown: 3500,
+            damage: 5,
+            cooldown: 500,
             keyBinding: 's',
             animationType: 'lightning' as const,
             skillType: 'offensive' as const,

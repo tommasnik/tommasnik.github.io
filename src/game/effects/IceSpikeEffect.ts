@@ -9,7 +9,6 @@ export class IceSpikeEffect extends ProjectileEffect {
             x: targetX,
             y: targetY,
             duration: 600,
-            ease: 'Power2',
             onComplete: () => {
                 this.createExplosion(targetX, targetY, 0x00ffff);
                 iceSpike.destroy();

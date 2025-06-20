@@ -8,8 +8,7 @@ export class FireballEffect extends ProjectileEffect {
             targets: fireball,
             x: targetX,
             y: targetY,
-            duration: 800,
-            ease: 'Power2',
+            duration: 400,
             onComplete: () => {
                 this.createExplosion(targetX, targetY, 0xff4400);
                 fireball.destroy();
