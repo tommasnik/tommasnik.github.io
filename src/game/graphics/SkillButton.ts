@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { Skill } from '../logic/Skill';
+import { GameConstants } from '../constants/GameConstants';
 
 export class SkillButton {
     scene: Phaser.Scene;
@@ -16,12 +17,11 @@ export class SkillButton {
     private clickHandler: (skill: Skill) => void;
     private isPressed: boolean = false;
     private pressStartTime: number = 0;
-    private minHoldTime: number = 100;
 
     constructor(scene: Phaser.Scene, x: number, y: number, skill: Skill, clickHandler: (skill: Skill) => void) {
         this.scene = scene;
         this.skill = skill;
-        this.radius = 30;
+        this.radius = GameConstants.UI.SKILL_BUTTON.radius;
         this.clickHandler = clickHandler;
 
         this.baseButton = scene.add.circle(x, y, this.radius, 0x444444)
@@ -87,25 +87,25 @@ export class SkillButton {
     }
 
     private handlePointerDown(): void {
-        if (this.skill.canUse()) {
+        if (this.skill.canStartCasting()) {
             this.isPressed = true;
             this.pressStartTime = Date.now();
             this.baseButton.setFillStyle(0x666666);
             this.progressRing.setVisible(true);
             this.scene.tweens.add({
                 targets: [this.baseButton, this.icon, this.text],
-                scaleX: 0.9,
-                scaleY: 0.9,
-                duration: 100,
+                scaleX: GameConstants.UI.SKILL_BUTTON.scaleOnPress,
+                scaleY: GameConstants.UI.SKILL_BUTTON.scaleOnPress,
+                duration: GameConstants.UI.SKILL_BUTTON.pressAnimationDuration,
                 ease: 'Power2'
             });
         }
     }
 
     private handlePointerUp(): void {
-        if (this.isPressed && this.skill.canUse()) {
+        if (this.isPressed && this.skill.canStartCasting()) {
             const holdTime = Date.now() - this.pressStartTime;
-            if (holdTime >= this.minHoldTime) {
+            if (holdTime >= this.skill.castTime) {
                 this.clickHandler(this.skill);
             }
         }
@@ -116,7 +116,7 @@ export class SkillButton {
             targets: [this.baseButton, this.icon, this.text],
             scaleX: 1,
             scaleY: 1,
-            duration: 100,
+            duration: GameConstants.UI.SKILL_BUTTON.pressAnimationDuration,
             ease: 'Power2'
         });
     }
@@ -129,7 +129,7 @@ export class SkillButton {
             targets: [this.baseButton, this.icon, this.text],
             scaleX: 1,
             scaleY: 1,
-            duration: 100,
+            duration: GameConstants.UI.SKILL_BUTTON.pressAnimationDuration,
             ease: 'Power2'
         });
     }
@@ -140,6 +140,7 @@ export class SkillButton {
         }
 
         const cooldownPercent = this.skill.getCooldownPercentage();
+        const castProgress = this.skill.getCastProgress();
 
         this.mask.clear();
         if (cooldownPercent > 0) {
@@ -155,14 +156,42 @@ export class SkillButton {
             this.icon.setAlpha(1);
         }
 
-        if (this.isPressed && this.skill.canUse()) {
+        if (this.isPressed && this.skill.canStartCasting()) {
             const holdTime = Date.now() - this.pressStartTime;
-            const progress = Math.min(holdTime / this.minHoldTime, 1);
+            const progress = Math.min(holdTime / this.skill.castTime, 1);
             
             this.progressRing.clear();
-            this.progressRing.lineStyle(3, 0x00ff00, 1);
+            this.progressRing.lineStyle(
+                GameConstants.UI.SKILL_BUTTON.progressRingThickness,
+                GameConstants.UI.SKILL_BUTTON.progressRingColor,
+                1
+            );
             this.progressRing.beginPath();
-            this.progressRing.arc(this.baseButton.x, this.baseButton.y, this.radius + 2, -Math.PI / 2, -Math.PI / 2 + (2 * Math.PI * progress), false);
+            this.progressRing.arc(
+                this.baseButton.x,
+                this.baseButton.y,
+                this.radius + GameConstants.UI.SKILL_BUTTON.progressRingOffset,
+                -Math.PI / 2,
+                -Math.PI / 2 + (2 * Math.PI * progress),
+                false
+            );
+            this.progressRing.strokePath();
+        } else if (castProgress > 0) {
+            this.progressRing.clear();
+            this.progressRing.lineStyle(
+                GameConstants.UI.SKILL_BUTTON.progressRingThickness,
+                0xffff00,
+                1
+            );
+            this.progressRing.beginPath();
+            this.progressRing.arc(
+                this.baseButton.x,
+                this.baseButton.y,
+                this.radius + GameConstants.UI.SKILL_BUTTON.progressRingOffset,
+                -Math.PI / 2,
+                -Math.PI / 2 + (2 * Math.PI * castProgress),
+                false
+            );
             this.progressRing.strokePath();
         }
 
@@ -170,7 +199,7 @@ export class SkillButton {
             this.scene.tweens.add({
                 targets: this.flash,
                 alpha: { from: 0.8, to: 0 },
-                duration: 300,
+                duration: GameConstants.UI.SKILL_BUTTON.flashAnimationDuration,
                 ease: 'Power2'
             });
         }

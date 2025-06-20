@@ -8,6 +8,7 @@ import { SkillButtonManager } from '../ui/SkillButtonManager';
 import { GameOverDisplay } from '../ui/GameOverDisplay';
 import { KeyboardInputManager } from '../input/KeyboardInputManager';
 import { SkillAnimationSystem } from '../systems/SkillAnimationSystem';
+import { GameConstants } from '../constants/GameConstants';
 
 export class FightScene extends Scene {
     private gameLogic: FightingGame;
@@ -32,6 +33,7 @@ export class FightScene extends Scene {
     create(): void {
         this.cameras.main.setBackgroundColor(0x000000);
         
+        this.gameLogic.reset();
         this.initializeComponents();
         this.setupEventHandlers();
         this.startIdleAnimations();
@@ -44,9 +46,9 @@ export class FightScene extends Scene {
         this.opponentFighter = new Fighter(this, 200, 200, 'orc_combat_idle', 5, 'Opponent', 'orc_combat_idle');
 
         this.playerHealthBar = new HealthBar(this, 200, 680, 200, 20);
-        this.playerHealthBar.setFillColor(0x00ff00);
+        this.playerHealthBar.setFillColor(GameConstants.UI.HEALTH_BAR.playerColor);
         this.opponentHealthBar = new HealthBar(this, 200, 120, 200, 20);
-        this.opponentHealthBar.setFillColor(0xff0000);
+        this.opponentHealthBar.setFillColor(GameConstants.UI.HEALTH_BAR.opponentColor);
 
         this.backButton = new BackButton(this, 350, 50);
         this.skillButtonManager = new SkillButtonManager(this, this.gameLogic);
@@ -85,8 +87,8 @@ export class FightScene extends Scene {
     }
 
     private updateHealthBars(): void {
-        const playerHealthPercent = this.gameLogic.getPlayerHealthPercentage();
-        const opponentHealthPercent = this.gameLogic.getOpponentHealthPercentage();
+        const playerHealthPercent = this.gameLogic.getPlayer().getHealthPercentage();
+        const opponentHealthPercent = this.gameLogic.getOpponent().getHealthPercentage();
         
         this.playerHealthBar.updateHealth(playerHealthPercent);
         this.opponentHealthBar.updateHealth(opponentHealthPercent);
@@ -95,7 +97,7 @@ export class FightScene extends Scene {
     private checkGameState(): void {
         const gameState = this.gameLogic.getGameState();
         
-        if (gameState === 'playerWon') {
+        if (gameState === GameConstants.GAME_STATES.GAME_OVER) {
             this.gameOverDisplay.showWinMessage();
             if (!this.gameOverTimer) {
                 this.gameOverTimer = setTimeout(() => {

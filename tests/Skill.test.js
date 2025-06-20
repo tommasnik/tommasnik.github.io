@@ -16,9 +16,12 @@ describe('Skill', () => {
         expect(skill.animationType).toBe('fireball');
         expect(skill.skillType).toBe('offensive');
         expect(skill.targetType).toBe('single');
+        expect(skill.isCasting).toBe(false);
+        expect(skill.castTime).toBeGreaterThan(0);
+        expect(skill.currentCastTime).toBe(0);
     });
 
-    test('should be able to use skill when cooldown is zero', () => {
+    test('should be able to use skill when cooldown is zero and not casting', () => {
         expect(skill.canUse()).toBe(true);
         const result = skill.use();
         expect(result).toBe(true);
@@ -26,6 +29,13 @@ describe('Skill', () => {
 
     test('should not be able to use skill when on cooldown', () => {
         skill.use();
+        expect(skill.canUse()).toBe(false);
+        const result = skill.use();
+        expect(result).toBe(false);
+    });
+
+    test('should not be able to use skill when casting', () => {
+        skill.startCasting();
         expect(skill.canUse()).toBe(false);
         const result = skill.use();
         expect(result).toBe(false);
@@ -102,5 +112,50 @@ describe('Skill', () => {
     test('should have descriptions', () => {
         const skillWithDesc = new Skill('Fireball', 10, 1000, 'a', 'fireball', 'offensive', 'single', 'Launches a fiery projectile');
         expect(skillWithDesc.description).toBe('Launches a fiery projectile');
+    });
+
+    test('should start casting when canStartCasting is true', () => {
+        expect(skill.canStartCasting()).toBe(true);
+        const result = skill.startCasting();
+        expect(result).toBe(true);
+        expect(skill.isCasting).toBe(true);
+        expect(skill.currentCastTime).toBe(0);
+    });
+
+    test('should not start casting when on cooldown', () => {
+        skill.use();
+        expect(skill.canStartCasting()).toBe(false);
+        const result = skill.startCasting();
+        expect(result).toBe(false);
+        expect(skill.isCasting).toBe(false);
+    });
+
+    test('should update cast time correctly', () => {
+        skill.startCasting();
+        const result = skill.updateCastTime(skill.castTime);
+        expect(result).toBe(true);
+        expect(skill.isCasting).toBe(false);
+        expect(skill.currentCooldown).toBe(skill.cooldown);
+    });
+
+    test('should calculate cast progress correctly', () => {
+        skill.startCasting();
+        skill.updateCastTime(skill.castTime / 2);
+        expect(skill.getCastProgress()).toBe(0.5);
+    });
+
+    test('should cancel cast correctly', () => {
+        skill.startCasting();
+        skill.updateCastTime(skill.castTime / 2);
+        skill.cancelCast();
+        expect(skill.isCasting).toBe(false);
+        expect(skill.currentCastTime).toBe(0);
+        expect(skill.getCastProgress()).toBe(0);
+    });
+
+    test('should accept custom cast time', () => {
+        const customCastTime = 500;
+        const skillWithCustomCast = new Skill('Custom', 10, 1000, 'a', 'fireball', 'offensive', 'single', '', customCastTime);
+        expect(skillWithCustomCast.castTime).toBe(customCastTime);
     });
 }); 

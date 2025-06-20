@@ -29,4 +29,8 @@ export { SkillAnimationSystem } from './systems/SkillAnimationSystem';
 // Logic
 export { FightingGame } from './logic/FightingGame';
 export { Fighter as FighterLogic } from './logic/Fighter';
-export { Skill } from './logic/Skill'; 
+export { Skill } from './logic/Skill';
+
+// Constants
+export { GameConstants } from './constants/GameConstants';
+export type { GameState } from './constants/GameConstants'; 

@@ -1,4 +1,5 @@
 import { Scene } from 'phaser';
+import { GameConstants } from '../constants/GameConstants';
 
 export class HealthBar {
     private background: Phaser.GameObjects.Rectangle;
@@ -9,7 +10,7 @@ export class HealthBar {
     private width: number;
     private height: number;
 
-    constructor(scene: Scene, x: number, y: number, width: number = 200, height: number = 20) {
+    constructor(scene: Scene, x: number, y: number, width: number = GameConstants.UI.HEALTH_BAR.width, height: number = GameConstants.UI.HEALTH_BAR.height) {
         this.scene = scene;
         this.x = x;
         this.y = y;

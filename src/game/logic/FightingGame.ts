@@ -1,7 +1,6 @@
 import { Fighter } from './Fighter';
 import { Skill } from './Skill';
-
-type GameState = 'fighting' | 'playerWon';
+import { GameConstants, GameState } from '../constants/GameConstants';
 
 export class FightingGame {
     player: Fighter;
@@ -10,29 +9,68 @@ export class FightingGame {
     gameState: GameState;
     lastUpdateTime: number;
     lastUsedSkill: Skill | null;
+    currentlyCastingSkill: Skill | null;
 
     constructor() {
-        this.player = new Fighter('Player', 100, 200, 600);
-        this.opponent = new Fighter('Opponent', 100, 200, 200);
+        this.player = new Fighter(
+            GameConstants.FIGHTERS.PLAYER.name,
+            GameConstants.FIGHTERS.PLAYER.maxHealth,
+            GameConstants.FIGHTERS.PLAYER.x,
+            GameConstants.FIGHTERS.PLAYER.y
+        );
+        this.opponent = new Fighter(
+            GameConstants.FIGHTERS.OPPONENT.name,
+            GameConstants.FIGHTERS.OPPONENT.maxHealth,
+            GameConstants.FIGHTERS.OPPONENT.x,
+            GameConstants.FIGHTERS.OPPONENT.y
+        );
         this.skills = this.createSkills();
-        this.gameState = 'fighting';
+        this.gameState = GameConstants.GAME_STATES.FIGHTING;
         this.lastUpdateTime = 0;
         this.lastUsedSkill = null;
+        this.currentlyCastingSkill = null;
     }
 
     createSkills(): Skill[] {
-        return [
-            new Skill('Fireball', 15, 2000, 'a', 'fireball', 'offensive', 'single', 'Launches a fiery projectile at the enemy'),
-            new Skill('Lightning', 20, 3500, 's', 'lightning', 'offensive', 'single', 'Strikes the enemy with lightning from your staff'),
-            new Skill('Ice Spike', 12, 1500, 'd', 'ice_spike', 'offensive', 'single', 'Conjures a sharp ice spike to pierce the enemy'),
-            new Skill('Meteor', 35, 8000, 'f', 'meteor', 'offensive', 'aoe', 'Summons a devastating meteor from the sky'),
-            new Skill('Shield', 0, 4000, 'q', 'shield', 'defensive', 'single', 'Creates a magical barrier to protect yourself'),
-            new Skill('Heal', 0, 6000, 'w', 'heal', 'defensive', 'single', 'Restores your health with healing magic')
+        const skillConfigs = [
+            GameConstants.SKILLS.FIREBALL,
+            GameConstants.SKILLS.LIGHTNING,
+            GameConstants.SKILLS.ICE_SPIKE,
+            GameConstants.SKILLS.METEOR,
+            GameConstants.SKILLS.SHIELD,
+            GameConstants.SKILLS.HEAL
         ];
+
+        return skillConfigs.map(config => new Skill(
+            config.name,
+            config.damage,
+            config.cooldown,
+            config.keyBinding,
+            config.animationType,
+            config.skillType,
+            config.targetType,
+            config.description
+        ));
     }
 
-    update(deltaTime: number): void {
-        this.skills.forEach(skill => skill.update(deltaTime));
+    startCastingSkill(skillIndex: number): boolean {
+        if (skillIndex < 0 || skillIndex >= this.skills.length) {
+            return false;
+        }
+
+        const skill = this.skills[skillIndex];
+        if (skill.startCasting()) {
+            this.currentlyCastingSkill = skill;
+            return true;
+        }
+        return false;
+    }
+
+    cancelCurrentCast(): void {
+        if (this.currentlyCastingSkill) {
+            this.currentlyCastingSkill.cancelCast();
+            this.currentlyCastingSkill = null;
+        }
     }
 
     useSkill(skillIndex: number): boolean {
@@ -41,50 +79,38 @@ export class FightingGame {
         }
 
         const skill = this.skills[skillIndex];
-        if (!skill.canUse()) {
-            return false;
-        }
-
-        skill.use();
-        
-        if (skill.skillType === 'offensive' && skill.damage > 0) {
-            this.opponent.takeDamage(skill.damage);
-            if (!this.opponent.isAlive) {
-                this.gameState = 'playerWon';
-            }
-        } else if (skill.skillType === 'defensive') {
-            if (skill.name === 'Heal') {
-                this.player.heal(25);
-            }
-        }
-
-        this.lastUsedSkill = skill;
-
-        return true;
-    }
-
-    useSkillByKey(key: string): boolean {
-        const skillIndex = this.skills.findIndex(skill => skill.keyBinding === key);
-        if (skillIndex !== -1) {
-            return this.useSkill(skillIndex);
+        if (skill.use()) {
+            this.lastUsedSkill = skill;
+            this.applySkillEffect(skill);
+            return true;
         }
         return false;
     }
 
-    getPlayerHealth(): number {
-        return this.player.currentHealth;
+    private applySkillEffect(skill: Skill): void {
+        if (skill.skillType === 'offensive') {
+            this.opponent.takeDamage(skill.damage);
+        } else if (skill.skillType === 'defensive') {
+            if (skill.animationType === 'heal') {
+                this.player.heal(25);
+            }
+        }
+
+        if (!this.opponent.isAlive) {
+            this.gameState = GameConstants.GAME_STATES.GAME_OVER;
+        }
     }
 
-    getOpponentHealth(): number {
-        return this.opponent.currentHealth;
-    }
+    update(deltaTime: number): void {
+        this.skills.forEach(skill => skill.update(deltaTime));
 
-    getPlayerHealthPercentage(): number {
-        return this.player.getHealthPercentage();
-    }
-
-    getOpponentHealthPercentage(): number {
-        return this.opponent.getHealthPercentage();
+        if (this.currentlyCastingSkill) {
+            if (this.currentlyCastingSkill.updateCastTime(deltaTime)) {
+                this.lastUsedSkill = this.currentlyCastingSkill;
+                this.applySkillEffect(this.currentlyCastingSkill);
+                this.currentlyCastingSkill = null;
+            }
+        }
     }
 
     getSkills(): Skill[] {
@@ -95,8 +121,20 @@ export class FightingGame {
         return this.lastUsedSkill;
     }
 
+    getCurrentlyCastingSkill(): Skill | null {
+        return this.currentlyCastingSkill;
+    }
+
     clearLastUsedSkill(): void {
         this.lastUsedSkill = null;
+    }
+
+    getPlayer(): Fighter {
+        return this.player;
+    }
+
+    getOpponent(): Fighter {
+        return this.opponent;
     }
 
     getGameState(): GameState {
@@ -104,12 +142,21 @@ export class FightingGame {
     }
 
     reset(): void {
-        this.player = new Fighter('Player', 100, 200, 600);
-        this.opponent = new Fighter('Opponent', 100, 200, 200);
-        this.skills.forEach(skill => {
-            skill.currentCooldown = 0;
-        });
-        this.gameState = 'fighting';
+        this.player = new Fighter(
+            GameConstants.FIGHTERS.PLAYER.name,
+            GameConstants.FIGHTERS.PLAYER.maxHealth,
+            GameConstants.FIGHTERS.PLAYER.x,
+            GameConstants.FIGHTERS.PLAYER.y
+        );
+        this.opponent = new Fighter(
+            GameConstants.FIGHTERS.OPPONENT.name,
+            GameConstants.FIGHTERS.OPPONENT.maxHealth,
+            GameConstants.FIGHTERS.OPPONENT.x,
+            GameConstants.FIGHTERS.OPPONENT.y
+        );
+        this.skills = this.createSkills();
+        this.gameState = GameConstants.GAME_STATES.FIGHTING;
         this.lastUsedSkill = null;
+        this.currentlyCastingSkill = null;
     }
 } 

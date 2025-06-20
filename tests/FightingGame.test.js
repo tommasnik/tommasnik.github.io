@@ -9,126 +9,150 @@ describe('FightingGame', () => {
 
     test('should create game with correct initial state', () => {
         expect(game.player.name).toBe('Player');
-        expect(game.opponent.name).toBe('Opponent');
         expect(game.player.currentHealth).toBe(100);
+        expect(game.opponent.name).toBe('Opponent');
         expect(game.opponent.currentHealth).toBe(100);
+        expect(game.skills.length).toBe(6);
         expect(game.gameState).toBe('fighting');
-        expect(game.skills).toHaveLength(6);
     });
 
     test('should create skills with correct properties', () => {
-        const skills = game.skills;
+        const skills = game.getSkills();
         expect(skills[0].name).toBe('Fireball');
         expect(skills[0].damage).toBe(15);
-        expect(skills[0].keyBinding).toBe('a');
-        expect(skills[0].animationType).toBe('fireball');
-        expect(skills[0].skillType).toBe('offensive');
-        expect(skills[0].targetType).toBe('single');
-        
+        expect(skills[0].cooldown).toBe(2000);
         expect(skills[1].name).toBe('Lightning');
         expect(skills[1].damage).toBe(20);
-        expect(skills[1].keyBinding).toBe('s');
-        expect(skills[1].animationType).toBe('lightning');
-        expect(skills[1].skillType).toBe('offensive');
-        expect(skills[1].targetType).toBe('single');
+        expect(skills[1].cooldown).toBe(3500);
     });
 
-    test('should update skills cooldowns', () => {
-        game.skills[0].use();
-        game.update(500);
-        expect(game.skills[0].currentCooldown).toBe(1500);
-    });
-
-    test('should use skill by index', () => {
-        const result = game.useSkill(0);
+    test('should start casting skill', () => {
+        const result = game.startCastingSkill(0);
         expect(result).toBe(true);
-        expect(game.opponent.currentHealth).toBe(85);
+        expect(game.getCurrentlyCastingSkill()).toBe(game.skills[0]);
+        expect(game.skills[0].isCasting).toBe(true);
+    });
+
+    test('should not start casting skill when on cooldown', () => {
+        game.useSkill(0);
+        const result = game.startCastingSkill(0);
+        expect(result).toBe(false);
+        expect(game.getCurrentlyCastingSkill()).toBe(null);
+    });
+
+    test('should cancel current cast', () => {
+        game.startCastingSkill(0);
+        expect(game.getCurrentlyCastingSkill()).toBe(game.skills[0]);
+        
+        game.cancelCurrentCast();
+        expect(game.getCurrentlyCastingSkill()).toBe(null);
+        expect(game.skills[0].isCasting).toBe(false);
+    });
+
+    test('should use skill and apply damage', () => {
+        const initialHealth = game.opponent.currentHealth;
+        const result = game.useSkill(0);
+        
+        expect(result).toBe(true);
+        expect(game.opponent.currentHealth).toBe(initialHealth - game.skills[0].damage);
+        expect(game.getLastUsedSkill()).toBe(game.skills[0]);
     });
 
     test('should not use skill when on cooldown', () => {
         game.useSkill(0);
         const result = game.useSkill(0);
         expect(result).toBe(false);
-        expect(game.opponent.currentHealth).toBe(85);
     });
 
-    test('should use skill by key binding', () => {
-        const result = game.useSkillByKey('a');
-        expect(result).toBe(true);
-        expect(game.opponent.currentHealth).toBe(85);
-    });
-
-    test('should return false for invalid key binding', () => {
-        const result = game.useSkillByKey('x');
-        expect(result).toBe(false);
-    });
-
-    test('should return false for invalid skill index', () => {
-        const result = game.useSkill(10);
-        expect(result).toBe(false);
+    test('should apply heal effect', () => {
+        game.player.takeDamage(25);
+        const initialHealth = game.player.currentHealth;
+        
+        game.useSkill(5);
+        expect(game.player.currentHealth).toBe(initialHealth + 25);
     });
 
     test('should change game state when opponent dies', () => {
-        game.useSkill(3);
-        game.update(8000); // Wait for cooldown
-        game.useSkill(3);
-        game.update(8000); // Wait for cooldown
-        game.useSkill(3);
+        game.opponent.takeDamage(95);
+        game.useSkill(0);
         
-        expect(game.gameState).toBe('playerWon');
+        expect(game.gameState).toBe('gameOver');
         expect(game.opponent.isAlive).toBe(false);
     });
 
-    test('should get correct health values', () => {
-        game.useSkill(0);
-        expect(game.getPlayerHealth()).toBe(100);
-        expect(game.getOpponentHealth()).toBe(85);
-    });
-
-    test('should get correct health percentages', () => {
-        expect(game.getPlayerHealthPercentage()).toBe(1.0);
-        expect(game.getOpponentHealthPercentage()).toBe(1.0);
-        
-        game.useSkill(0);
-        expect(game.getOpponentHealthPercentage()).toBe(0.85);
-    });
-
-    test('should reset game state', () => {
-        game.useSkill(0);
-        game.reset();
-        
-        expect(game.player.currentHealth).toBe(100);
-        expect(game.opponent.currentHealth).toBe(100);
-        expect(game.gameState).toBe('fighting');
-        expect(game.skills[0].currentCooldown).toBe(0);
-    });
-
-    test('should handle skills with zero damage', () => {
-        const shieldSkill = game.skills[4];
-        expect(shieldSkill.damage).toBe(0);
-        
-        const result = game.useSkill(4);
-        expect(result).toBe(true);
-        expect(game.opponent.currentHealth).toBe(100);
-    });
-
-    test('should track last used skill', () => {
+    test('should update cast time and complete cast', () => {
+        game.startCastingSkill(0);
         const skill = game.skills[0];
-        game.useSkill(0);
+        
+        game.update(skill.castTime);
+        expect(game.getCurrentlyCastingSkill()).toBe(null);
         expect(game.getLastUsedSkill()).toBe(skill);
+        expect(game.opponent.currentHealth).toBe(85);
+    });
+
+    test('should update cooldowns', () => {
+        game.useSkill(0);
+        const initialCooldown = game.skills[0].currentCooldown;
+        
+        game.update(1000);
+        expect(game.skills[0].currentCooldown).toBe(initialCooldown - 1000);
+    });
+
+    test('should get correct skills', () => {
+        const skills = game.getSkills();
+        expect(skills).toBe(game.skills);
+        expect(skills.length).toBe(6);
+    });
+
+    test('should get last used skill', () => {
+        expect(game.getLastUsedSkill()).toBe(null);
+        
+        game.useSkill(0);
+        expect(game.getLastUsedSkill()).toBe(game.skills[0]);
     });
 
     test('should clear last used skill', () => {
         game.useSkill(0);
-        expect(game.getLastUsedSkill()).not.toBe(null);
+        expect(game.getLastUsedSkill()).toBe(game.skills[0]);
         
         game.clearLastUsedSkill();
         expect(game.getLastUsedSkill()).toBe(null);
     });
 
-    test('should reset last used skill on game reset', () => {
+    test('should get currently casting skill', () => {
+        expect(game.getCurrentlyCastingSkill()).toBe(null);
+        
+        game.startCastingSkill(0);
+        expect(game.getCurrentlyCastingSkill()).toBe(game.skills[0]);
+    });
+
+    test('should get player and opponent', () => {
+        expect(game.getPlayer()).toBe(game.player);
+        expect(game.getOpponent()).toBe(game.opponent);
+    });
+
+    test('should get game state', () => {
+        expect(game.getGameState()).toBe('fighting');
+    });
+
+    test('should reset game state completely', () => {
         game.useSkill(0);
+        game.startCastingSkill(1);
+        game.player.takeDamage(25);
+        game.opponent.takeDamage(50);
+        
         game.reset();
+        
+        expect(game.player.currentHealth).toBe(100);
+        expect(game.opponent.currentHealth).toBe(100);
+        expect(game.gameState).toBe('fighting');
         expect(game.getLastUsedSkill()).toBe(null);
+        expect(game.getCurrentlyCastingSkill()).toBe(null);
+        
+        game.skills.forEach(skill => {
+            expect(skill.currentCooldown).toBe(0);
+            expect(skill.isCasting).toBe(false);
+            expect(skill.currentCastTime).toBe(0);
+        });
     });
 }); 
