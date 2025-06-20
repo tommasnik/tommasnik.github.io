@@ -60,7 +60,6 @@ export class FightScene extends Scene {
         this.keyboardInputManager.setupKeyboardInput();
 
         this.skillAnimationSystem = new SkillAnimationSystem(
-            this, 
             this.gameLogic, 
             this.effectFactory, 
             this.playerFighter, 

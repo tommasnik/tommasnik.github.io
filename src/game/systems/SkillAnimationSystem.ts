@@ -1,10 +1,8 @@
-import { Scene } from 'phaser';
 import { FightingGame } from '../logic/FightingGame';
 import { EffectFactory } from '../effects/EffectFactory';
 import { Fighter } from '../graphics/Fighter';
 
 export class SkillAnimationSystem {
-    private scene: Scene;
     private gameLogic: FightingGame;
     private effectFactory: EffectFactory;
     private playerFighter: Fighter;
@@ -12,8 +10,7 @@ export class SkillAnimationSystem {
     private isPlayingSkillAnimation: boolean = false;
     private currentSkillAnimation: string | null = null;
 
-    constructor(scene: Scene, gameLogic: FightingGame, effectFactory: EffectFactory, playerFighter: Fighter, opponentFighter: Fighter) {
-        this.scene = scene;
+    constructor(gameLogic: FightingGame, effectFactory: EffectFactory, playerFighter: Fighter, opponentFighter: Fighter) {
         this.gameLogic = gameLogic;
         this.effectFactory = effectFactory;
         this.playerFighter = playerFighter;
