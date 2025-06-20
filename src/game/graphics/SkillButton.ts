@@ -11,8 +11,12 @@ export class SkillButton {
     text: Phaser.GameObjects.Text;
     icon: Phaser.GameObjects.Image;
     flash: Phaser.GameObjects.Arc;
+    progressRing: Phaser.GameObjects.Graphics;
     previousCooldown: number = 0;
     private clickHandler: (skill: Skill) => void;
+    private isPressed: boolean = false;
+    private pressStartTime: number = 0;
+    private minHoldTime: number = 100;
 
     constructor(scene: Phaser.Scene, x: number, y: number, skill: Skill, clickHandler: (skill: Skill) => void) {
         this.scene = scene;
@@ -31,6 +35,10 @@ export class SkillButton {
         this.mask.x = x;
         this.mask.y = y;
         this.cooldownButton.mask = new Phaser.Display.Masks.BitmapMask(scene, this.mask);
+
+        this.progressRing = scene.add.graphics()
+            .setDepth(2)
+            .setVisible(false);
 
         const iconKey = this.getIconKey(skill.animationType);
         this.icon = scene.add.image(x, y - 8, iconKey)
@@ -66,9 +74,63 @@ export class SkillButton {
 
     setupEventHandlers(): void {
         this.baseButton.on('pointerdown', () => {
-            if (this.skill.canUse()) {
+            this.handlePointerDown();
+        });
+
+        this.baseButton.on('pointerup', () => {
+            this.handlePointerUp();
+        });
+
+        this.baseButton.on('pointerout', () => {
+            this.handlePointerOut();
+        });
+    }
+
+    private handlePointerDown(): void {
+        if (this.skill.canUse()) {
+            this.isPressed = true;
+            this.pressStartTime = Date.now();
+            this.baseButton.setFillStyle(0x666666);
+            this.progressRing.setVisible(true);
+            this.scene.tweens.add({
+                targets: [this.baseButton, this.icon, this.text],
+                scaleX: 0.9,
+                scaleY: 0.9,
+                duration: 100,
+                ease: 'Power2'
+            });
+        }
+    }
+
+    private handlePointerUp(): void {
+        if (this.isPressed && this.skill.canUse()) {
+            const holdTime = Date.now() - this.pressStartTime;
+            if (holdTime >= this.minHoldTime) {
                 this.clickHandler(this.skill);
             }
+        }
+        this.isPressed = false;
+        this.baseButton.setFillStyle(0x444444);
+        this.progressRing.setVisible(false);
+        this.scene.tweens.add({
+            targets: [this.baseButton, this.icon, this.text],
+            scaleX: 1,
+            scaleY: 1,
+            duration: 100,
+            ease: 'Power2'
+        });
+    }
+
+    private handlePointerOut(): void {
+        this.isPressed = false;
+        this.baseButton.setFillStyle(0x444444);
+        this.progressRing.setVisible(false);
+        this.scene.tweens.add({
+            targets: [this.baseButton, this.icon, this.text],
+            scaleX: 1,
+            scaleY: 1,
+            duration: 100,
+            ease: 'Power2'
         });
     }
 
@@ -91,6 +153,17 @@ export class SkillButton {
         } else {
             this.text.setColor('#ffffff');
             this.icon.setAlpha(1);
+        }
+
+        if (this.isPressed && this.skill.canUse()) {
+            const holdTime = Date.now() - this.pressStartTime;
+            const progress = Math.min(holdTime / this.minHoldTime, 1);
+            
+            this.progressRing.clear();
+            this.progressRing.lineStyle(3, 0x00ff00, 1);
+            this.progressRing.beginPath();
+            this.progressRing.arc(this.baseButton.x, this.baseButton.y, this.radius + 2, -Math.PI / 2, -Math.PI / 2 + (2 * Math.PI * progress), false);
+            this.progressRing.strokePath();
         }
 
         if (cooldownPercent === 0 && this.previousCooldown > 0) {
@@ -129,6 +202,10 @@ export class SkillButton {
         if (this.flash) {
             this.flash.destroy();
             this.flash = null as any;
+        }
+        if (this.progressRing) {
+            this.progressRing.destroy();
+            this.progressRing = null as any;
         }
     }
 } 

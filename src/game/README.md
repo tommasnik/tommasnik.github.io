@@ -113,4 +113,45 @@ const gameLogic = new FightingGame();
 const effectFactory = new EffectFactory(scene);
 const playerFighter = new Fighter(scene, x, y, texture, frame, name, idleAnim);
 const skillSystem = new SkillAnimationSystem(scene, gameLogic, effectFactory, playerFighter, opponentFighter);
-``` 
+```
+
+# Game Engine
+
+This directory contains the core game engine components for the fighting game.
+
+## Skill System
+
+### Press-and-Hold Mechanics
+
+Skills now use a press-and-hold system for both mouse/touch and keyboard controls:
+
+- **Mouse/Touch**: Press and hold the skill button for at least 100ms, then release to activate the skill
+- **Keyboard**: Press and hold the skill key for at least 100ms, then release to activate the skill
+
+### Visual Feedback
+
+When holding a skill button:
+- The button scales down slightly (0.9x)
+- The button color changes to a lighter gray
+- A green progress ring appears around the button, filling up during the hold time
+- The ring completes when the minimum hold time (100ms) is reached
+
+### Skill Controls
+
+- **A**: Fireball (15 damage, 2s cooldown)
+- **S**: Lightning (20 damage, 3.5s cooldown)  
+- **D**: Ice Spike (12 damage, 1.5s cooldown)
+- **F**: Meteor (35 damage, 8s cooldown)
+- **Q**: Shield (0 damage, 4s cooldown)
+- **W**: Heal (0 damage, 6s cooldown)
+
+## Architecture
+
+- **FightingGame**: Core game logic and state management
+- **Fighter**: Player and opponent entities with health and damage handling
+- **Skill**: Individual skill definitions with cooldowns and effects
+- **SkillButton**: UI component with press-and-hold mechanics
+- **SkillButtonManager**: Manages all skill buttons and their layout
+- **KeyboardInputManager**: Handles keyboard input with press-and-hold support
+- **AnimationManager**: Manages skill animations and effects
+- **Scenes**: Game state management (Menu, Fight, Game Over, etc.) 
