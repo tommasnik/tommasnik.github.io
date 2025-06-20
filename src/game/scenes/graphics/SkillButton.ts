@@ -9,6 +9,7 @@ export class SkillButton {
     cooldownButton: Phaser.GameObjects.Arc;
     mask: Phaser.GameObjects.Graphics;
     text: Phaser.GameObjects.Text;
+    icon: Phaser.GameObjects.Image;
     flash: Phaser.GameObjects.Arc;
     previousCooldown: number = 0;
 
@@ -29,8 +30,13 @@ export class SkillButton {
         this.mask.y = y;
         this.cooldownButton.mask = new Phaser.Display.Masks.BitmapMask(scene, this.mask);
 
-        this.text = scene.add.text(x, y, skill.name, {
-            fontSize: '14px',
+        const iconKey = this.getIconKey(skill.animationType);
+        this.icon = scene.add.image(x, y - 8, iconKey)
+            .setScale(0.6)
+            .setDepth(3);
+
+        this.text = scene.add.text(x, y + 12, skill.name, {
+            fontSize: '10px',
             color: '#ffffff',
             align: 'center'
         })
@@ -42,6 +48,18 @@ export class SkillButton {
             .setDepth(4);
 
         this.setupEventHandlers();
+    }
+
+    getIconKey(animationType: string): string {
+        const iconMap: { [key: string]: string } = {
+            'fireball': 'fireball',
+            'lightning': 'lightning',
+            'ice_spike': 'ice_spike',
+            'meteor': 'meteor',
+            'shield': 'shield',
+            'heal': 'heal'
+        };
+        return iconMap[animationType] || 'fireball';
     }
 
     setupEventHandlers(): void {
@@ -63,8 +81,10 @@ export class SkillButton {
             this.mask.fillPath();
 
             this.text.setColor('#888888');
+            this.icon.setAlpha(0.5);
         } else {
             this.text.setColor('#ffffff');
+            this.icon.setAlpha(1);
         }
 
         if (cooldownPercent === 0 && this.previousCooldown > 0) {
@@ -84,6 +104,7 @@ export class SkillButton {
         this.cooldownButton.destroy();
         this.mask.destroy();
         this.text.destroy();
+        this.icon.destroy();
         this.flash.destroy();
     }
 } 

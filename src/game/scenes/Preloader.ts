@@ -33,6 +33,11 @@ export class Preloader extends Scene
 
         this.load.image('logo', 'logo.png');
 
+        const skillIcons = ['fireball', 'lightning', 'ice_spike', 'meteor', 'shield', 'heal'];
+        skillIcons.forEach(icon => {
+            this.load.image(icon, `icons/${icon}.png`);
+        });
+
         const orcAnimations = [
             'backslash', 'climb', 'combat_idle', 'emote', 'halfslash', 'hurt', 'idle', 'jump', 'run', 'shoot', 'sit', 'slash', 'spellcast', 'thrust', 'walk'
         ];
