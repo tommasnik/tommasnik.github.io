@@ -1,0 +1,161 @@
+{
+  "bodyTypeName": "male",
+  "url": "https://liberatedpixelcup.github.io/Universal-LPC-Spritesheet-Character-Generator/#?body=Zombie_green&head=Zombie_zombie_green&hair=none_Unkempt&beard=Basic_Beard_gray&clothes=Robe_brown&legs=Pants_brown&shoes=Basic_Boots_brown&belt=Loose_Belt_brown&cape=Tattered_brown&expression=Angry&bandages=Bandages_white&wound_arm=Arm_red&wound_ribs=Ribs_red&eyebrows=Thick_Eyebrows_gray&wrinkes=Wrinkles_brown",
+  "spritesheets": "https://liberatedpixelcup.github.io/Universal-LPC-Spritesheet-Character-Generator/spritesheets/",
+  "version": 1,
+  "datetime": "6/19/2025, 9:14:44 PM",
+  "credits": [
+    {
+      "fileName": "head/heads/zombie/adult/zombie_green.png",
+      "licenses": "CC-BY-SA 3.0,GPL 3.0",
+      "authors": "bluecarrot16,Benjamin K. Smith (BenCreating),Sander Frenken (castelonia),Stephen Challener (Redshrike)",
+      "urls": "https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles,https://opengameart.org/content/lpc-zombie,https://opengameart.org/content/lpc-character-bases",
+      "notes": ""
+    },
+    {
+      "fileName": "eyes/eyebrows/thick/adult/gray.png",
+      "licenses": "OGA-BY 3.0",
+      "authors": "ElizaWy",
+      "urls": "https://github.com/ElizaWy/LPC/tree/main/Characters/Hair,https://opengameart.org/content/lpc-expanded-sit-run-jump-more",
+      "notes": ""
+    },
+    {
+      "fileName": "head/wrinkles/brown.png",
+      "licenses": "CC0",
+      "authors": "bluecarrot16",
+      "urls": "",
+      "notes": ""
+    },
+    {
+      "fileName": "beards/beard/basic/gray.png",
+      "licenses": "CC-BY-SA 3.0,GPL 3.0",
+      "authors": "JaidynReiman,Carlo Enrico Victoria (Nemisys)",
+      "urls": "https://opengameart.org/content/lpc-white-beard",
+      "notes": "Original by Nemisys, repositioning by JaidynReiman."
+    },
+    {
+      "fileName": "torso/bandage/male/white.png",
+      "licenses": "OGA-BY 3.0,CC-BY-SA 3.0,GPL 2.0,GPL 3.0",
+      "authors": "Nila122",
+      "urls": "https://opengameart.org/content/lpc-bandages",
+      "notes": ""
+    },
+    {
+      "fileName": "cape/tattered/female/brown.png",
+      "licenses": "OGA-BY 3.0,CC-BY-SA 3.0,GPL 3.0",
+      "authors": "Nila122,JaidynReiman",
+      "urls": "https://opengameart.org/content/lpc-curly-hair-elven-ears-white-cape-with-blue-trim-and-more,https://opengameart.org/content/lpc-roman-armor",
+      "notes": ""
+    },
+    {
+      "fileName": "cape/tattered_behind/brown.png",
+      "licenses": "OGA-BY 3.0,CC-BY-SA 3.0,GPL 3.0",
+      "authors": "Nila122,JaidynReiman",
+      "urls": "https://opengameart.org/content/lpc-curly-hair-elven-ears-white-cape-with-blue-trim-and-more,https://opengameart.org/content/lpc-roman-armor",
+      "notes": ""
+    },
+    {
+      "fileName": "torso/waist/belt_loose/male/brown.png",
+      "licenses": "OGA-BY 3.0,CC-BY-SA 3.0,GPL 3.0",
+      "authors": "bluecarrot16,Johannes Sjölund (wulax),Matthew Krohn (makrohn)",
+      "urls": "https://opengameart.org/content/lpc-combat-armor-for-women,https://opengameart.org/content/lpc-pirates",
+      "notes": ""
+    },
+    {
+      "fileName": "legs/pants/male/brown.png",
+      "licenses": "OGA-BY 3.0,GPL 3.0,CC-BY-SA 3.0",
+      "authors": "bluecarrot16,JaidynReiman,ElizaWy,Matthew Krohn (makrohn),Johannes Sjölund (wulax),Stephen Challener (Redshrike)",
+      "urls": "https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles,https://opengameart.org/content/lpc-medieval-fantasy-character-sprites,https://opengameart.org/content/lpc-expanded-pants",
+      "notes": "original male pants by wulax, recolors and edits to v3 base by bluecarrot16, climb/jump/run/sit/emotes/revised combat by JaidynReiman based on ElizaWy's LPC Revised"
+    },
+    {
+      "fileName": "feet/boots/basic/male/brown.png",
+      "licenses": "OGA-BY 3.0,CC-BY-SA 3.0,GPL 2.0,GPL 3.0",
+      "authors": "JaidynReiman,bluecarrot16,Nila122",
+      "urls": "https://opengameart.org/content/lpc-clothes-and-hair,https://opengameart.org/content/lpc-expanded-socks-shoes",
+      "notes": "original by Nila122, edited for male and v3 bases by bluecarrot16, Jump/Sit/Emote/Run/Revised Combat by JaidynReiman"
+    }
+  ],
+  "layers": [
+    {
+      "fileName": "cape/tattered_behind/brown.png",
+      "zPos": 5,
+      "parentName": "cape",
+      "name": "Tattered",
+      "variant": "brown",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering"
+    },
+    {
+      "fileName": "legs/pants/male/brown.png",
+      "zPos": 20,
+      "parentName": "legs",
+      "name": "Pants",
+      "variant": "brown",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering,idle,jump,run,sit,emote,climb,combat,1h_slash,1h_backslash,1h_halfslash"
+    },
+    {
+      "fileName": "feet/boots/basic/male/brown.png",
+      "zPos": 25,
+      "parentName": "shoes",
+      "name": "Basic_Boots",
+      "variant": "brown",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering,idle,jump,run,sit,emote,climb,combat,1h_slash,1h_backslash,1h_halfslash"
+    },
+    {
+      "fileName": "torso/waist/belt_loose/male/brown.png",
+      "zPos": 70,
+      "parentName": "belt",
+      "name": "Loose_Belt",
+      "variant": "brown",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering"
+    },
+    {
+      "fileName": "cape/tattered/female/brown.png",
+      "zPos": 85,
+      "parentName": "cape",
+      "name": "Tattered",
+      "variant": "brown",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering"
+    },
+    {
+      "fileName": "head/heads/zombie/adult/zombie_green.png",
+      "zPos": 100,
+      "parentName": "head",
+      "name": "Zombie",
+      "variant": "zombie_green",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering,idle,jump,run,sit,emote,climb,combat,1h_slash,1h_backslash,1h_halfslash"
+    },
+    {
+      "fileName": "head/wrinkles/brown.png",
+      "zPos": 102,
+      "parentName": "wrinkes",
+      "name": "Wrinkles",
+      "variant": "brown",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering,idle,jump,run,sit,emote,climb,combat,1h_slash,1h_backslash,1h_halfslash"
+    },
+    {
+      "fileName": "eyes/eyebrows/thick/adult/gray.png",
+      "zPos": 106,
+      "parentName": "eyebrows",
+      "name": "Thick_Eyebrows",
+      "variant": "gray",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering,idle,jump,run,sit,emote,climb,combat,1h_slash,1h_backslash,1h_halfslash"
+    },
+    {
+      "fileName": "beards/beard/basic/gray.png",
+      "zPos": 110,
+      "parentName": "beard",
+      "name": "Basic_Beard",
+      "variant": "gray",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering,idle,jump,run,sit,emote,climb,combat,1h_slash,1h_backslash,1h_halfslash"
+    },
+    {
+      "fileName": "torso/bandage/male/white.png",
+      "zPos": 110,
+      "parentName": "bandages",
+      "name": "Bandages",
+      "variant": "white",
+      "supportedAnimations": "spellcast,thrust,walk,slash,shoot,hurt,watering"
+    }
+  ]
+}

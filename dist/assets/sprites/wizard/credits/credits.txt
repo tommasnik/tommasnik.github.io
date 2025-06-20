@@ -1,0 +1,279 @@
+body/bodies/male/light.png
+	- Note: see details at https://opengameart.org/content/lpc-character-bases; 'Thick' Male Revised Run/Climb by JaidynReiman (based on ElizaWy's LPC Revised)
+	- Licenses:
+		- OGA-BY 3.0
+		- CC-BY-SA 3.0
+		- GPL 3.0
+	- Authors:
+		- bluecarrot16
+		- JaidynReiman
+		- Benjamin K. Smith (BenCreating)
+		- Evert
+		- Eliza Wyatt (ElizaWy)
+		- TheraHedwig
+		- MuffinElZangano
+		- Durrani
+		- Johannes Sjölund (wulax)
+		- Stephen Challener (Redshrike)
+	- Links:
+		- https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles
+		- https://opengameart.org/content/lpc-medieval-fantasy-character-sprites
+		- https://opengameart.org/content/lpc-male-jumping-animation-by-durrani
+		- https://opengameart.org/content/lpc-runcycle-and-diagonal-walkcycle
+		- https://opengameart.org/content/lpc-revised-character-basics
+		- https://opengameart.org/content/lpc-be-seated
+		- https://opengameart.org/content/lpc-runcycle-for-male-muscular-and-pregnant-character-bases-with-modular-heads
+		- https://opengameart.org/content/lpc-jump-expanded
+		- https://opengameart.org/content/lpc-character-bases
+
+head/heads/human/male_elderly/light.png
+	- Note: 
+	- Licenses:
+		- OGA-BY 3.0
+		- CC-BY 3.0
+	- Authors:
+		- Benjamin K. Smith (BenCreating)
+		- Eliza Wyatt (ElizaWy)
+		- Stephen Challener (Redshrike)
+	- Links:
+		- https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles
+		- https://opengameart.org/content/lpc-revised-elders
+		- https://opengameart.org/content/lpc-character-bases
+
+head/nose/elderly/adult/light.png
+	- Note: 
+	- Licenses:
+		- OGA-BY 3.0
+	- Authors:
+		- ElizaWy
+	- Links:
+		- https://opengameart.org/content/lpc-revised-elders
+
+eyes/eyebrows/thick/adult/white.png
+	- Note: 
+	- Licenses:
+		- OGA-BY 3.0
+	- Authors:
+		- ElizaWy
+	- Links:
+		- https://github.com/ElizaWy/LPC/tree/main/Characters/Hair
+		- https://opengameart.org/content/lpc-expanded-sit-run-jump-more
+
+head/wrinkles/light.png
+	- Note: 
+	- Licenses:
+		- CC0
+	- Authors:
+		- bluecarrot16
+	- Links:
+		- 
+
+beards/beard/winter/male/white.png
+	- Note: 
+	- Licenses:
+		- CC0
+	- Authors:
+		- bluecarrot16
+	- Links:
+		- https://opengameart.org/content/lpc-santa
+
+hair/long/adult/white.png
+	- Note: 
+	- Licenses:
+		- CC-BY-SA 3.0
+		- GPL 3.0
+	- Authors:
+		- JaidynReiman
+		- Manuel Riecke (MrBeast)
+	- Links:
+		- https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles
+		- https://opengameart.org/content/lpc-expanded-hair
+
+hat/magic/wizard/base/adult/charcoal.png
+	- Note: Original Wizard Hat and Recolors by bigbeargames and reemax; split into separate layers with new recolors by JaidynReiman
+	- Licenses:
+		- CC-BY-SA 3.0
+		- GPL 2.0
+		- GPL 3.0
+	- Authors:
+		- Michael Whitlock (bigbeargames)
+		- Tuomo Untinen (reemax)
+		- JaidynReiman
+	- Links:
+		- https://opengameart.org/content/lpc-items-and-game-effects
+		- https://opengameart.org/content/lpc-pointed-hats
+		- https://opengameart.org/content/lpc-expanded-hats-facial-helmets
+
+hat/magic/wizard/belt/adult/sky.png
+	- Note: Original Wizard Hat and Recolors by bigbeargames and reemax; split into separate layers with new recolors by JaidynReiman
+	- Licenses:
+		- CC-BY-SA 3.0
+		- GPL 2.0
+		- GPL 3.0
+	- Authors:
+		- Michael Whitlock (bigbeargames)
+		- Tuomo Untinen (reemax)
+		- JaidynReiman
+	- Links:
+		- https://opengameart.org/content/lpc-items-and-game-effects
+		- https://opengameart.org/content/lpc-pointed-hats
+		- https://opengameart.org/content/lpc-expanded-hats-facial-helmets
+
+torso/clothes/longsleeve/longsleeve/male/gray.png
+	- Note: original by wulax, recolors and cleanup by JaidynReiman, further recolors by bluecarrot16
+	- Licenses:
+		- OGA-BY 3.0
+		- CC-BY-SA 3.0
+		- GPL 3.0
+	- Authors:
+		- JaidynReiman
+		- Johannes Sjölund (wulax)
+	- Links:
+		- https://opengameart.org/content/lpc-medieval-fantasy-character-sprites
+		- http://opengameart.org/content/lpc-clothing-updates
+
+cape/solid/female/gray.png
+	- Note: 
+	- Licenses:
+		- OGA-BY 3.0
+		- CC-BY-SA 3.0
+		- GPL 3.0
+	- Authors:
+		- bluecarrot16
+		- JaidynReiman
+	- Links:
+		- https://opengameart.org/content/lpc-curly-hair-elven-ears-white-cape-with-blue-trim-and-more
+		- https://opengameart.org/content/lpc-roman-armor
+		- http://opengameart.org/content/lpc-clothing-updates
+
+cape/solid_behind/gray.png
+	- Note: 
+	- Licenses:
+		- OGA-BY 3.0
+		- CC-BY-SA 3.0
+		- GPL 3.0
+	- Authors:
+		- Nila122
+		- JaidynReiman
+	- Links:
+		- https://opengameart.org/content/lpc-curly-hair-elven-ears-white-cape-with-blue-trim-and-more
+		- https://opengameart.org/content/lpc-roman-armor
+
+torso/waist/belt_leather/male/brown.png
+	- Note: 
+	- Licenses:
+		- OGA-BY 3.0
+		- CC-BY-SA 3.0
+		- GPL 3.0
+	- Authors:
+		- bluecarrot16
+		- Johannes Sjölund (wulax)
+		- Matthew Krohn (makrohn)
+	- Links:
+		- https://opengameart.org/content/lpc-combat-armor-for-women
+		- https://opengameart.org/content/lpc-pirates
+
+legs/pants2/male/gray.png
+	- Note: original overalls by ElizaWy, base animations adapted from v3 overalls by bluecarrot16, pants by JaidynReiman
+	- Licenses:
+		- OGA-BY 3.0
+		- GPL 3.0
+	- Authors:
+		- JaidynReiman
+		- ElizaWy
+		- Bluecarrot16
+		- Johannes Sjölund (wulax)
+		- Stephen Challener (Redshrike)
+	- Links:
+		- https://github.com/ElizaWy/LPC/tree/main/Characters/Clothing
+		- https://opengameart.org/content/lpc-expanded-sit-run-jump-more
+		- https://opengameart.org/content/lpc-expanded-pants
+
+weapon/magic/gnarled/universal/foreground/medium.png
+	- Note: 
+	- Licenses:
+		- OGA-BY 3.0+
+		- GPL 3.0
+		- CC-BY 4.0
+	- Authors:
+		- bluecarrot16
+	- Links:
+		- https://opengameart.org/content/lpc-more-weapons
+
+weapon/magic/gnarled/universal/background/medium.png
+	- Note: 
+	- Licenses:
+		- OGA-BY 3.0+
+		- GPL 3.0
+		- CC-BY 4.0
+	- Authors:
+		- bluecarrot16
+	- Links:
+		- https://opengameart.org/content/lpc-more-weapons
+
+weapon/magic/gnarled/thrust/foreground/medium.png
+	- Note: 
+	- Licenses:
+		- OGA-BY 3.0+
+		- GPL 3.0
+		- CC-BY 4.0
+	- Authors:
+		- bluecarrot16
+	- Links:
+		- https://opengameart.org/content/lpc-more-weapons
+
+weapon/magic/gnarled/thrust/background/medium.png
+	- Note: 
+	- Licenses:
+		- OGA-BY 3.0+
+		- GPL 3.0
+		- CC-BY 4.0
+	- Authors:
+		- bluecarrot16
+	- Links:
+		- https://opengameart.org/content/lpc-more-weapons
+
+weapon/magic/crystal/universal/foreground/red.png
+	- Note: 
+	- Licenses:
+		- OGA-BY 3.0+
+		- GPL 3.0
+		- CC-BY 4.0
+	- Authors:
+		- bluecarrot16
+	- Links:
+		- https://opengameart.org/content/lpc-more-weapons
+
+weapon/magic/crystal/universal/background/red.png
+	- Note: 
+	- Licenses:
+		- OGA-BY 3.0+
+		- GPL 3.0
+		- CC-BY 4.0
+	- Authors:
+		- bluecarrot16
+	- Links:
+		- https://opengameart.org/content/lpc-more-weapons
+
+weapon/magic/crystal/thrust/foreground/red.png
+	- Note: 
+	- Licenses:
+		- OGA-BY 3.0+
+		- GPL 3.0
+		- CC-BY 4.0
+	- Authors:
+		- bluecarrot16
+	- Links:
+		- https://opengameart.org/content/lpc-more-weapons
+
+weapon/magic/crystal/thrust/background/red.png
+	- Note: 
+	- Licenses:
+		- OGA-BY 3.0+
+		- GPL 3.0
+		- CC-BY 4.0
+	- Authors:
+		- bluecarrot16
+	- Links:
+		- https://opengameart.org/content/lpc-more-weapons
+
