@@ -1,6 +1,7 @@
 import { Fighter } from './Fighter';
 import { Skill } from './Skill';
 import { GameConstants, GameState } from '../constants/GameConstants';
+import { CastingManager } from '../systems/CastingManager';
 
 export class FightingGame {
     player: Fighter;
@@ -9,7 +10,7 @@ export class FightingGame {
     gameState: GameState;
     lastUpdateTime: number;
     lastUsedSkill: Skill | null;
-    currentlyCastingSkill: Skill | null;
+    castingManager: CastingManager;
 
     constructor() {
         this.player = new Fighter(
@@ -28,7 +29,7 @@ export class FightingGame {
         this.gameState = GameConstants.GAME_STATES.FIGHTING;
         this.lastUpdateTime = 0;
         this.lastUsedSkill = null;
-        this.currentlyCastingSkill = null;
+        this.castingManager = new CastingManager();
     }
 
     createSkills(): Skill[] {
@@ -59,18 +60,20 @@ export class FightingGame {
         }
 
         const skill = this.skills[skillIndex];
-        if (skill.startCasting()) {
-            this.currentlyCastingSkill = skill;
-            return true;
-        }
-        return false;
+        const currentTime = Date.now();
+        return this.castingManager.startCasting(skill, currentTime);
     }
 
     cancelCurrentCast(): void {
-        if (this.currentlyCastingSkill) {
-            this.currentlyCastingSkill.cancelCast();
-            this.currentlyCastingSkill = null;
+        this.castingManager.cancelAllCasting();
+    }
+
+    cancelSkillCast(skillIndex: number): void {
+        if (skillIndex < 0 || skillIndex >= this.skills.length) {
+            return;
         }
+        const skill = this.skills[skillIndex];
+        this.castingManager.cancelCasting(skill);
     }
 
     useSkill(skillIndex: number): boolean {
@@ -104,12 +107,12 @@ export class FightingGame {
     update(deltaTime: number): void {
         this.skills.forEach(skill => skill.update(deltaTime));
 
-        if (this.currentlyCastingSkill) {
-            if (this.currentlyCastingSkill.updateCastTime(deltaTime)) {
-                this.lastUsedSkill = this.currentlyCastingSkill;
-                this.applySkillEffect(this.currentlyCastingSkill);
-                this.currentlyCastingSkill = null;
-            }
+        const currentTime = Date.now();
+        const completedSpells = this.castingManager.updateCasting(deltaTime, currentTime);
+        
+        for (const completedSpell of completedSpells) {
+            this.lastUsedSkill = completedSpell;
+            this.applySkillEffect(completedSpell);
         }
     }
 
@@ -122,7 +125,20 @@ export class FightingGame {
     }
 
     getCurrentlyCastingSkill(): Skill | null {
-        return this.currentlyCastingSkill;
+        const castingSpells = this.castingManager.getCastingSpells();
+        return castingSpells.length > 0 ? castingSpells[0].skill : null;
+    }
+
+    getCastingSpells(): any[] {
+        return this.castingManager.getCastingSpells();
+    }
+
+    isCasting(skill: Skill): boolean {
+        return this.castingManager.isCasting(skill);
+    }
+
+    getCastingProgress(skill: Skill): number {
+        return this.castingManager.getCastingProgress(skill);
     }
 
     clearLastUsedSkill(): void {
@@ -157,6 +173,6 @@ export class FightingGame {
         this.skills = this.createSkills();
         this.gameState = GameConstants.GAME_STATES.FIGHTING;
         this.lastUsedSkill = null;
-        this.currentlyCastingSkill = null;
+        this.castingManager.reset();
     }
 } 

@@ -3,12 +3,12 @@ import { FightingGame } from '../logic/FightingGame';
 import { EffectFactory } from '../effects/EffectFactory';
 import { Fighter } from '../graphics/Fighter';
 import { HealthBar } from '../graphics/HealthBar';
-import { CastingRing } from '../graphics/CastingRing';
+import { MultiCastingRing } from '../graphics/MultiCastingRing';
 import { BackButton } from '../ui/BackButton';
 import { SkillButtonManager } from '../ui/SkillButtonManager';
 import { GameOverDisplay } from '../ui/GameOverDisplay';
 import { InputManager } from '../input/KeyboardInputManager';
-import { SkillAnimationSystem } from '../systems/SkillAnimationSystem';
+import { MultiSkillAnimationSystem } from '../systems/MultiSkillAnimationSystem';
 import { GameConstants } from '../constants/GameConstants';
 
 export class FightScene extends Scene {
@@ -18,12 +18,12 @@ export class FightScene extends Scene {
     private opponentFighter!: Fighter;
     private playerHealthBar!: HealthBar;
     private opponentHealthBar!: HealthBar;
-    private castingRing!: CastingRing;
+    private multiCastingRing!: MultiCastingRing;
     private backButton!: BackButton;
     private skillButtonManager!: SkillButtonManager;
     private gameOverDisplay!: GameOverDisplay;
     private inputManager!: InputManager;
-    private skillAnimationSystem!: SkillAnimationSystem;
+    private multiSkillAnimationSystem!: MultiSkillAnimationSystem;
     private gameOverTimer: ReturnType<typeof setTimeout> | null = null;
     
 
@@ -39,6 +39,7 @@ export class FightScene extends Scene {
         this.initializeComponents();
         this.setupEventHandlers();
         this.startIdleAnimations();
+        this.multiCastingRing.forceCleanup();
     }
 
     private initializeComponents(): void {
@@ -52,7 +53,7 @@ export class FightScene extends Scene {
         this.opponentHealthBar = new HealthBar(this, 200, 120, 200, 20);
         this.opponentHealthBar.setFillColor(GameConstants.UI.HEALTH_BAR.opponentColor);
 
-        this.castingRing = new CastingRing(this);
+        this.multiCastingRing = new MultiCastingRing(this);
 
         this.backButton = new BackButton(this, 350, 50);
         this.inputManager = new InputManager(this, this.gameLogic);
@@ -62,7 +63,7 @@ export class FightScene extends Scene {
 
         this.gameOverDisplay = new GameOverDisplay(this);
 
-        this.skillAnimationSystem = new SkillAnimationSystem(
+        this.multiSkillAnimationSystem = new MultiSkillAnimationSystem(
             this.gameLogic, 
             this.effectFactory, 
             this.playerFighter, 
@@ -85,10 +86,12 @@ export class FightScene extends Scene {
     update(time: number, delta: number): void {
         this.gameLogic.update(delta);
         this.updateHealthBars();
-        this.updateCastingRing();
+        this.updateMultiCastingRing();
         this.skillButtonManager.update();
         this.checkGameState();
-        this.skillAnimationSystem.handleSkillAnimations();
+        this.multiSkillAnimationSystem.handleSkillAnimations();
+        
+        this.ensureRingCleanup();
     }
 
     private updateHealthBars(): void {
@@ -99,20 +102,39 @@ export class FightScene extends Scene {
         this.opponentHealthBar.updateHealth(opponentHealthPercent);
     }
 
-    private updateCastingRing(): void {
-        const currentlyCastingSkill = this.gameLogic.getCurrentlyCastingSkill();
+    private updateMultiCastingRing(): void {
+        const castingSpells = this.gameLogic.getCastingSpells();
         const playerPos = this.playerFighter.getPosition();
         
-        if (currentlyCastingSkill && currentlyCastingSkill.isCasting) {
-            const progress = currentlyCastingSkill.getCastProgress();
+        const activeSkillNames = new Set<string>();
+        
+        for (const castingSpell of castingSpells) {
+            const skillName = castingSpell.skill.name;
+            activeSkillNames.add(skillName);
             
-            if (!this.castingRing.isVisible) {
-                this.castingRing.startCasting(currentlyCastingSkill.animationType, playerPos.x, playerPos.y);
+            const progress = castingSpell.progress;
+            
+            if (progress === 0) {
+                this.multiCastingRing.startCasting(skillName, castingSpell.skill.animationType, playerPos.x, playerPos.y);
             } else {
-                this.castingRing.updateProgress(progress, playerPos.x, playerPos.y);
+                this.multiCastingRing.updateProgress(skillName, progress, playerPos.x, playerPos.y);
             }
-        } else {
-            this.castingRing.stopCasting();
+        }
+        
+        this.cleanupCompletedRings(activeSkillNames);
+    }
+
+    private cleanupCompletedRings(activeSkillNames: Set<string>): void {
+        const currentlyDisplayedRings = this.multiCastingRing.getActiveRingNames();
+        
+        for (const ringName of currentlyDisplayedRings) {
+            if (!activeSkillNames.has(ringName)) {
+                this.multiCastingRing.stopCasting(ringName);
+            }
+        }
+        
+        if (currentlyDisplayedRings.length > 0 && activeSkillNames.size === 0) {
+            this.multiCastingRing.forceCleanup();
         }
     }
 
@@ -143,11 +165,21 @@ export class FightScene extends Scene {
         this.opponentFighter.destroy();
         this.playerHealthBar.destroy();
         this.opponentHealthBar.destroy();
-        this.castingRing.destroy();
+        this.multiCastingRing.stopAllCasting();
+        this.multiCastingRing.destroy();
         this.backButton.destroy();
     }
 
     shutdown(): void {
         this.cleanup();
+    }
+
+    private ensureRingCleanup(): void {
+        const castingSpells = this.gameLogic.getCastingSpells();
+        const activeRingCount = this.multiCastingRing.getActiveRingCount();
+        
+        if (castingSpells.length === 0 && activeRingCount > 0) {
+            this.multiCastingRing.forceCleanup();
+        }
     }
 } 

@@ -54,15 +54,15 @@ export class InputManager {
     private handleKeyUp(key: string): void {
         if (this.pressedKeys.has(key)) {
             const skill = this.skillKeyBindings.get(key);
-            if (skill && skill.isCasting) {
+            if (skill && this.gameLogic.isCasting(skill)) {
                 const pressStartTime = this.keyPressStartTimes.get(key);
                 if (pressStartTime) {
                     const holdTime = Date.now() - pressStartTime;
+                    const skillIndex = this.gameLogic.getSkills().indexOf(skill);
                     if (holdTime >= skill.castTime) {
-                        const skillIndex = this.gameLogic.getSkills().indexOf(skill);
                         this.gameLogic.useSkill(skillIndex);
                     } else {
-                        this.gameLogic.cancelCurrentCast();
+                        this.gameLogic.cancelSkillCast(skillIndex);
                     }
                 }
             }
@@ -79,7 +79,7 @@ export class InputManager {
     }
 
     handleMouseSkillComplete(skill: Skill): void {
-        if (skill.isCasting) {
+        if (this.gameLogic.isCasting(skill)) {
             const skillIndex = this.gameLogic.getSkills().indexOf(skill);
             this.gameLogic.useSkill(skillIndex);
         }

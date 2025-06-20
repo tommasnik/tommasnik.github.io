@@ -35,7 +35,7 @@ export class SkillButtonManager {
             const angle = layout.leftStartAngle + layout.skillSpacing * (i - 1);
             const x = leftCircleCenterX + Math.cos(angle) * layout.circleRadius;
             const y = leftCircleCenterY + Math.sin(angle) * layout.circleRadius;
-            this.skillButtons.push(new SkillButton(this.scene, x, y, skills[i], this.inputManager));
+            this.skillButtons.push(new SkillButton(this.scene, x, y, skills[i], this.inputManager, this.gameLogic));
         }
     }
 
@@ -47,7 +47,7 @@ export class SkillButtonManager {
             const angle = layout.rightStartAngle + layout.skillSpacing * (i - 1);
             const x = rightCircleCenterX + Math.cos(angle) * layout.circleRadius;
             const y = rightCircleCenterY + Math.sin(angle) * layout.circleRadius;
-            this.skillButtons.push(new SkillButton(this.scene, x, y, skills[i], this.inputManager));
+            this.skillButtons.push(new SkillButton(this.scene, x, y, skills[i], this.inputManager, this.gameLogic));
         }
     }
 

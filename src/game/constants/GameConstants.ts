@@ -84,7 +84,7 @@ export const GameConstants = {
         
         OPPONENT: {
             name: 'Opponent',
-            maxHealth: 100,
+            maxHealth: 1000,
             x: 200,
             y: 200
         }

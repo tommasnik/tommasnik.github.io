@@ -1,7 +1,8 @@
 import Phaser from 'phaser';
 import { Skill } from '../logic/Skill';
-import { GameConstants } from '../constants/GameConstants';
 import { InputManager } from '../input/KeyboardInputManager';
+import { GameConstants } from '../constants/GameConstants';
+import { FightingGame } from '../logic/FightingGame';
 
 export class SkillButton {
     scene: Phaser.Scene;
@@ -16,18 +17,20 @@ export class SkillButton {
     progressRing: Phaser.GameObjects.Graphics;
     previousCooldown: number = 0;
     private inputManager: InputManager;
+    private gameLogic: FightingGame;
     private isPressed: boolean = false;
     private pressStartTime: number = 0;
 
-    constructor(scene: Phaser.Scene, x: number, y: number, skill: Skill, inputManager: InputManager) {
+    constructor(scene: Phaser.Scene, x: number, y: number, skill: Skill, inputManager: InputManager, gameLogic: FightingGame) {
         this.scene = scene;
         this.skill = skill;
         this.radius = GameConstants.UI.SKILL_BUTTON.radius;
         this.inputManager = inputManager;
+        this.gameLogic = gameLogic;
 
         this.baseButton = scene.add.circle(x, y, this.radius, 0x444444)
             .setInteractive()
-            .setDepth(1);
+            .setDepth(0);
 
         this.cooldownButton = scene.add.circle(x, y, this.radius, 0x666666)
             .setDepth(1);
@@ -145,7 +148,7 @@ export class SkillButton {
         }
 
         const cooldownPercent = this.skill.getCooldownPercentage();
-        const castProgress = this.skill.getCastProgress();
+        const castProgress = this.gameLogic.getCastingProgress(this.skill);
 
         this.mask.clear();
         if (cooldownPercent > 0) {
@@ -162,7 +165,7 @@ export class SkillButton {
         }
 
         // Show progress ring if skill is being cast (keyboard or mouse)
-        if (this.skill.isCasting) {
+        if (this.gameLogic.isCasting(this.skill)) {
             this.progressRing.setVisible(true);
             this.progressRing.clear();
             this.progressRing.lineStyle(

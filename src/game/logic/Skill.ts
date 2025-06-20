@@ -53,7 +53,7 @@ export class Skill {
     }
 
     canStartCasting(): boolean {
-        return this.currentCooldown <= 0 && !this.isCasting;
+        return this.currentCooldown <= 0;
     }
 
     startCasting(): boolean {
@@ -80,10 +80,15 @@ export class Skill {
         return false;
     }
 
-    private completeCast(): void {
+    completeCast(): void {
         this.isCasting = false;
         this.currentCastTime = 0;
         this.use();
+    }
+
+    completeCastWithoutUse(): void {
+        this.isCasting = false;
+        this.currentCastTime = 0;
     }
 
     cancelCast(): void {

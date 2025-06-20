@@ -21,25 +21,20 @@ export class CastingRing {
         this.animationType = animationType;
         this.currentProgress = 0;
         this.isVisible = true;
-        console.log('startCasting', this.isVisible);
         this.graphics.setVisible(true);
         this.updatePosition(x, y);
         this.updateRing();
-        console.log('CastingRing: Started casting', animationType, 'at', x, y);
     }
 
     updateProgress(progress: number, x: number, y: number): void {
         if (!this.isVisible) return;
-        console.log('updateProgress', progress);
         
         this.currentProgress = Math.min(progress, 1);
         this.updatePosition(x, y);
         this.updateRing();
-        console.log('CastingRing: Updated progress', progress, 'at', x, y);
     }
 
     stopCasting(): void {
-        console.log('stopCasting', this.isVisible);
         this.isVisible = false;
         this.graphics.setVisible(false);
         this.currentProgress = 0;
@@ -53,14 +48,12 @@ export class CastingRing {
         this.graphics.clear();
         
         if (!this.isVisible) {
-            console.log('CastingRing: Not visible, skipping draw');
             return;
         }
 
         const color = this.getRingColor();
         const alpha = this.getRingAlpha();
         
-        console.log('CastingRing: Drawing ring with color', color.toString(16), 'alpha', alpha, 'progress', this.currentProgress);
         
         this.graphics.lineStyle(this.thickness, color, alpha);
         this.graphics.beginPath();
