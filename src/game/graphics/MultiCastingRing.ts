@@ -8,7 +8,7 @@ export class MultiCastingRing {
     private activeRings: Map<string, CastingRingData> = new Map();
     private baseRadius: number = GameConstants.UI.CASTING_RING.radius;
     private thickness: number = GameConstants.UI.CASTING_RING.thickness;
-    private ringSpacing: number = 35;
+    private ringSpacing: number = 25;
 
     constructor(scene: Phaser.Scene) {
         this.scene = scene;
@@ -113,6 +113,8 @@ export class MultiCastingRing {
         const adjustedAlpha = alpha * (1 - (ringIndex * 0.1));
         const lineThickness = this.thickness + (ringIndex * 1);
         
+        this.addGlowEffect(ringData, color, adjustedAlpha, lineThickness);
+        
         this.graphics.lineStyle(lineThickness, color, adjustedAlpha);
         this.graphics.beginPath();
         this.graphics.arc(
@@ -124,8 +126,6 @@ export class MultiCastingRing {
             false
         );
         this.graphics.strokePath();
-
-        this.addGlowEffect(ringData, color, adjustedAlpha, lineThickness);
     }
 
     private getRingColor(animationType: string): number {
@@ -150,10 +150,10 @@ export class MultiCastingRing {
     }
 
     private addGlowEffect(ringData: CastingRingData, color: number, alpha: number, lineThickness: number): void {
-        const glowRadius = ringData.radius + GameConstants.UI.CASTING_RING.glowOffset;
+        const glowRadius = ringData.radius;
         const glowAlpha = alpha * GameConstants.UI.CASTING_RING.glowAlphaMultiplier;
         
-        this.graphics.lineStyle(lineThickness + 2, color, glowAlpha);
+        this.graphics.lineStyle(lineThickness +  GameConstants.UI.CASTING_RING.glowOffset, color, glowAlpha);
         this.graphics.beginPath();
         this.graphics.arc(
             ringData.x, 
