@@ -12,11 +12,13 @@ export class SkillButton {
     icon: Phaser.GameObjects.Image;
     flash: Phaser.GameObjects.Arc;
     previousCooldown: number = 0;
+    private clickHandler: (skill: Skill) => void;
 
-    constructor(scene: Phaser.Scene, x: number, y: number, skill: Skill) {
+    constructor(scene: Phaser.Scene, x: number, y: number, skill: Skill, clickHandler: (skill: Skill) => void) {
         this.scene = scene;
         this.skill = skill;
         this.radius = 30;
+        this.clickHandler = clickHandler;
 
         this.baseButton = scene.add.circle(x, y, this.radius, 0x444444)
             .setInteractive()
@@ -65,7 +67,7 @@ export class SkillButton {
     setupEventHandlers(): void {
         this.baseButton.on('pointerdown', () => {
             if (this.skill.canUse()) {
-                (this.scene as any).onSkillButtonClick(this.skill);
+                this.clickHandler(this.skill);
             }
         });
     }
