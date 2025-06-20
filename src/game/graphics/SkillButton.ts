@@ -108,13 +108,8 @@ export class SkillButton {
     }
 
     private handlePointerUp(): void {
-        if (this.isPressed && this.skill.canStartCasting()) {
-            const holdTime = Date.now() - this.pressStartTime;
-            if (holdTime >= this.skill.castTime) {
-                this.inputManager.handleMouseSkillComplete(this.skill);
-            } else {
-                this.inputManager.handleMouseSkillCancel();
-            }
+        if (this.isPressed) {
+            this.inputManager.handleMouseSkillComplete(this.skill);
         }
         this.isPressed = false;
         this.baseButton.setFillStyle(0x444444);

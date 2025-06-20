@@ -86,6 +86,15 @@ export class Skill {
         this.use();
     }
 
+    completeCastOnRelease(): boolean {
+        if (!this.isCasting) {
+            return false;
+        }
+        this.isCasting = false;
+        this.currentCastTime = 0;
+        return this.use();
+    }
+
     completeCastWithoutUse(): void {
         this.isCasting = false;
         this.currentCastTime = 0;

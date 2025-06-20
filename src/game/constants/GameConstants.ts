@@ -1,8 +1,8 @@
 export const GameConstants = {
     // Skill System
     SKILLS: {
-        CAST_TIME_MULTIPLIER: 0.15, // Cast time as fraction of cooldown (increased from 0.1)
-        MIN_CAST_TIME: 300, // Minimum cast time in milliseconds (increased from 200)
+        CAST_TIME_MULTIPLIER: 0.2, // Cast time as fraction of cooldown (increased from 0.1)
+        MIN_CAST_TIME: 400, // Minimum cast time in milliseconds (increased from 200)
         MAX_CAST_TIME: 1500, // Maximum cast time in milliseconds (decreased from 2000)
         
         // Skill Definitions
@@ -43,7 +43,7 @@ export const GameConstants = {
             name: 'Meteor',
             damage: 35,
             cooldown: 8000,
-            keyBinding: 'f',
+            keyBinding: 'j',
             animationType: 'meteor' as const,
             skillType: 'offensive' as const,
             targetType: 'aoe' as const,
@@ -54,7 +54,7 @@ export const GameConstants = {
             name: 'Shield',
             damage: 0,
             cooldown: 4000,
-            keyBinding: 'q',
+            keyBinding: 'k',
             animationType: 'shield' as const,
             skillType: 'defensive' as const,
             targetType: 'single' as const,
@@ -65,7 +65,7 @@ export const GameConstants = {
             name: 'Heal',
             damage: 0,
             cooldown: 6000,
-            keyBinding: 'w',
+            keyBinding: 'l',
             animationType: 'heal' as const,
             skillType: 'defensive' as const,
             targetType: 'single' as const,

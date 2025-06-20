@@ -39,13 +39,16 @@ describe('InputManager', () => {
 
     test('should handle mouse skill complete correctly', () => {
         const skill = gameLogic.getSkills()[0];
-        skill.startCasting();
-        
-        const useSkillSpy = jest.spyOn(gameLogic, 'useSkill');
-        
+        const skillIndex = gameLogic.getSkills().indexOf(skill);
+        gameLogic.startCastingSkill(skillIndex);
+        const completeCastingSpy = jest.spyOn(gameLogic, 'completeCastingOnRelease');
+
+        // Simulate casting progress is complete
+        gameLogic.castingManager.getCastingSpells()[0].progress = 1;
+
         inputManager.handleMouseSkillComplete(skill);
-        
-        expect(useSkillSpy).toHaveBeenCalled();
+
+        expect(completeCastingSpy).toHaveBeenCalledWith(skillIndex);
     });
 
     test('should handle mouse skill cancel correctly', () => {

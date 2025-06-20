@@ -11,7 +11,7 @@ describe('FightingGame', () => {
         expect(game.player.name).toBe('Player');
         expect(game.player.currentHealth).toBe(100);
         expect(game.opponent.name).toBe('Opponent');
-        expect(game.opponent.currentHealth).toBe(100);
+        expect(game.opponent.currentHealth).toBe(1000);
         expect(game.skills.length).toBe(6);
         expect(game.gameState).toBe('fighting');
     });
@@ -73,21 +73,21 @@ describe('FightingGame', () => {
     });
 
     test('should change game state when opponent dies', () => {
-        game.opponent.takeDamage(95);
+        game.opponent.takeDamage(995);
         game.useSkill(0);
         
         expect(game.gameState).toBe('gameOver');
         expect(game.opponent.isAlive).toBe(false);
     });
 
-    test('should update cast time and complete cast', () => {
+    test('should update cast time but not complete cast automatically', () => {
         game.startCastingSkill(0);
         const skill = game.skills[0];
         
         game.update(skill.castTime);
-        expect(game.getCurrentlyCastingSkill()).toBe(null);
-        expect(game.getLastUsedSkill()).toBe(skill);
-        expect(game.opponent.currentHealth).toBe(85);
+        expect(game.getCurrentlyCastingSkill()).toBe(skill);
+        expect(game.getLastUsedSkill()).toBe(null);
+        expect(game.opponent.currentHealth).toBe(1000);
     });
 
     test('should update cooldowns', () => {
@@ -144,7 +144,7 @@ describe('FightingGame', () => {
         game.reset();
         
         expect(game.player.currentHealth).toBe(100);
-        expect(game.opponent.currentHealth).toBe(100);
+        expect(game.opponent.currentHealth).toBe(1000);
         expect(game.gameState).toBe('fighting');
         expect(game.getLastUsedSkill()).toBe(null);
         expect(game.getCurrentlyCastingSkill()).toBe(null);

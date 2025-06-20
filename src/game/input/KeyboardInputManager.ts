@@ -55,16 +55,8 @@ export class InputManager {
         if (this.pressedKeys.has(key)) {
             const skill = this.skillKeyBindings.get(key);
             if (skill && this.gameLogic.isCasting(skill)) {
-                const pressStartTime = this.keyPressStartTimes.get(key);
-                if (pressStartTime) {
-                    const holdTime = Date.now() - pressStartTime;
-                    const skillIndex = this.gameLogic.getSkills().indexOf(skill);
-                    if (holdTime >= skill.castTime) {
-                        this.gameLogic.useSkill(skillIndex);
-                    } else {
-                        this.gameLogic.cancelSkillCast(skillIndex);
-                    }
-                }
+                const skillIndex = this.gameLogic.getSkills().indexOf(skill);
+                this.gameLogic.completeCastingOnRelease(skillIndex);
             }
             this.pressedKeys.delete(key);
             this.keyPressStartTimes.delete(key);
@@ -81,7 +73,7 @@ export class InputManager {
     handleMouseSkillComplete(skill: Skill): void {
         if (this.gameLogic.isCasting(skill)) {
             const skillIndex = this.gameLogic.getSkills().indexOf(skill);
-            this.gameLogic.useSkill(skillIndex);
+            this.gameLogic.completeCastingOnRelease(skillIndex);
         }
     }
 

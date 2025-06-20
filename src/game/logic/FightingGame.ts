@@ -90,6 +90,20 @@ export class FightingGame {
         return false;
     }
 
+    completeCastingOnRelease(skillIndex: number): boolean {
+        if (skillIndex < 0 || skillIndex >= this.skills.length) {
+            return false;
+        }
+
+        const skill = this.skills[skillIndex];
+        if (this.castingManager.completeCastingOnRelease(skill)) {
+            this.lastUsedSkill = skill;
+            this.applySkillEffect(skill);
+            return true;
+        }
+        return false;
+    }
+
     private applySkillEffect(skill: Skill): void {
         if (skill.skillType === 'offensive') {
             this.opponent.takeDamage(skill.damage);
@@ -108,12 +122,7 @@ export class FightingGame {
         this.skills.forEach(skill => skill.update(deltaTime));
 
         const currentTime = Date.now();
-        const completedSpells = this.castingManager.updateCasting(deltaTime, currentTime);
-        
-        for (const completedSpell of completedSpells) {
-            this.lastUsedSkill = completedSpell;
-            this.applySkillEffect(completedSpell);
-        }
+        this.castingManager.updateCasting(deltaTime, currentTime);
     }
 
     getSkills(): Skill[] {

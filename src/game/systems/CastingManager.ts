@@ -34,12 +34,6 @@ export class CastingManager {
         for (const [skill, castingSpell] of this.castingSpells) {
             const elapsedTime = currentTime - castingSpell.startTime;
             castingSpell.progress = Math.min(elapsedTime / castingSpell.castTime, 1);
-
-            if (castingSpell.progress >= 1) {
-                skill.completeCastWithoutUse();
-                completedSpells.push(skill);
-                this.castingSpells.delete(skill);
-            }
         }
 
         return completedSpells;
@@ -90,5 +84,23 @@ export class CastingManager {
 
     reset(): void {
         this.cancelAllCasting();
+    }
+
+    completeCastingOnRelease(skill: Skill): boolean {
+        const castingSpell = this.castingSpells.get(skill);
+        if (!castingSpell) {
+            return false;
+        }
+
+        if (castingSpell.progress >= 1) {
+            const success = skill.completeCastOnRelease();
+            if (success) {
+                this.castingSpells.delete(skill);
+            }
+            return success;
+        } else {
+            this.cancelCasting(skill);
+            return false;
+        }
     }
 } 
