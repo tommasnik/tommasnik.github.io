@@ -34,6 +34,8 @@ export class Preloader extends Scene
 
         this.load.image('logo', 'logo.png');
 
+        this.load.image('game_background', 'bg.png');
+
         const skillIcons = ['fireball', 'lightning', 'ice_spike', 'meteor', 'shield', 'heal'];
         skillIcons.forEach(icon => {
             this.load.image(icon, `icons/${icon}.png`);

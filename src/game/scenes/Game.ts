@@ -7,11 +7,8 @@ export class Game extends Scene
         super('Game');
     }
 
-    create (): void
-    {
-        
-
-        this.add.image(200, 400, 'background').setAlpha(0.5).setScale(0.55);
+    create (): void {
+        this.add.image(200, 400, 'game_background').setAlpha(0.5);
 
         const fightButton = this.add.text(200, 500, 'FIGHT', {
             fontFamily: 'Arial Black', fontSize: 32, color: '#ffffff',
